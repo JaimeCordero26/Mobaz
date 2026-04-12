@@ -71,7 +71,7 @@ export default function Hero() {
           {/* Stats */}
           <div className="border-t border-white/20 pt-8 grid grid-cols-3 gap-4 sm:gap-8">
             {[
-              { number: "150+", label: "Proyectos" },
+              { number: "✔", label: "Múltiples proyectos" },
               { number: "23+", label: "Años de exp." },
               { number: "100%", label: "Satisfacción" },
             ].map((stat) => (
