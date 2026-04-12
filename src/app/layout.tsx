@@ -8,6 +8,10 @@ export const metadata: Metadata = {
   title: "SC Servicios Constructivos",
   description: "Construcción de casas, edificios, apartamentos, remodelaciones y más. Tu visión, nuestra construcción.",
   keywords: "construcción, casas, edificios, apartamentos, remodelaciones, Costa Rica",
+  icons: {
+    icon: "/api/logo",
+    apple: "/api/logo",
+  },
 };
 
 export default function RootLayout({
