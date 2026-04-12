@@ -43,7 +43,28 @@ const categoryColors: Record<string, string> = {
   Remodelación: "bg-orange-100 text-orange-700",
 };
 
-// ── Card with its own carousel ────────────────────────────────────────────────
+// ── Hook: swipe táctil ────────────────────────────────────────────────────────
+function useSwipe(onLeft: () => void, onRight: () => void) {
+  const touchStartX = useRef<number | null>(null);
+
+  function onTouchStart(e: React.TouchEvent) {
+    touchStartX.current = e.touches[0].clientX;
+  }
+
+  function onTouchEnd(e: React.TouchEvent) {
+    if (touchStartX.current === null) return;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) onLeft();   // swipe izquierda → siguiente
+      else onRight();           // swipe derecha → anterior
+    }
+    touchStartX.current = null;
+  }
+
+  return { onTouchStart, onTouchEnd };
+}
+
+// ── Card con carrusel y swipe ─────────────────────────────────────────────────
 function ProjectCard({
   project,
   onOpen,
@@ -56,40 +77,47 @@ function ProjectCard({
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const images = project.images || [];
 
-  // Auto-advance while hovered
+  const goNext = useCallback(() => setIdx((i) => (i + 1) % images.length), [images.length]);
+  const goPrev = useCallback(() => setIdx((i) => (i - 1 + images.length) % images.length), [images.length]);
+
+  const swipe = useSwipe(goNext, goPrev);
+
+  // Auto-advance mientras hay hover (solo desktop)
   useEffect(() => {
     if (hovered && images.length > 1) {
-      intervalRef.current = setInterval(() => {
-        setIdx((i) => (i + 1) % images.length);
-      }, 1800);
+      intervalRef.current = setInterval(goNext, 1800);
     } else {
       if (intervalRef.current) clearInterval(intervalRef.current);
     }
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, [hovered, images.length]);
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+  }, [hovered, images.length, goNext]);
 
   function prev(e: React.MouseEvent) {
     e.stopPropagation();
-    setIdx((i) => (i - 1 + images.length) % images.length);
+    goPrev();
   }
 
   function next(e: React.MouseEvent) {
     e.stopPropagation();
-    setIdx((i) => (i + 1) % images.length);
+    goNext();
   }
 
   return (
     <div
-      className="group rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-400 cursor-pointer bg-white"
-      style={{ transform: hovered ? "translateY(-6px)" : "translateY(0)", transition: "transform 0.3s ease, box-shadow 0.3s ease" }}
+      className="group rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-300 cursor-pointer bg-white"
+      style={{
+        transform: hovered ? "translateY(-6px)" : "translateY(0)",
+        transition: "transform 0.3s ease, box-shadow 0.3s ease",
+      }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onClick={() => onOpen(project, idx)}
     >
       {/* Image area */}
-      <div className="relative h-56 sm:h-60 bg-gradient-to-br from-blue-100 to-green-100 overflow-hidden">
+      <div
+        className="relative h-56 sm:h-60 bg-gradient-to-br from-blue-100 to-green-100 overflow-hidden"
+        {...(images.length > 1 ? swipe : {})}
+      >
         {images.length > 0 ? (
           <>
             {images.map((src, i) => (
@@ -101,26 +129,24 @@ function ProjectCard({
                 className="absolute inset-0 w-full h-full object-cover transition-all duration-700"
                 style={{
                   opacity: i === idx ? 1 : 0,
-                  transform: i === idx
-                    ? hovered ? "scale(1.07)" : "scale(1)"
-                    : "scale(1)",
+                  transform: i === idx ? (hovered ? "scale(1.07)" : "scale(1)") : "scale(1)",
                   transitionProperty: "opacity, transform",
                 }}
               />
             ))}
 
-            {/* Arrow buttons — show on hover if >1 image */}
             {images.length > 1 && (
               <>
+                {/* Flechas — visibles siempre en móvil, en hover en desktop */}
                 <button
                   onClick={prev}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 text-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10"
+                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 text-white rounded-full p-1.5 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-200 z-10"
                 >
                   <ChevronLeft size={16} />
                 </button>
                 <button
                   onClick={next}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 text-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 text-white rounded-full p-1.5 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-200 z-10"
                 >
                   <ChevronRight size={16} />
                 </button>
@@ -131,14 +157,12 @@ function ProjectCard({
                     <button
                       key={i}
                       onClick={(e) => { e.stopPropagation(); setIdx(i); }}
-                      className={`rounded-full transition-all duration-300 ${
-                        i === idx ? "w-4 h-1.5 bg-white" : "w-1.5 h-1.5 bg-white/50"
-                      }`}
+                      className={`rounded-full transition-all duration-300 ${i === idx ? "w-4 h-1.5 bg-white" : "w-1.5 h-1.5 bg-white/50"}`}
                     />
                   ))}
                 </div>
 
-                {/* Image counter badge */}
+                {/* Counter */}
                 <div className="absolute top-3 right-3 bg-black/50 text-white text-xs rounded-full px-2 py-0.5 flex items-center gap-1 z-10">
                   <Images size={11} />
                   {idx + 1}/{images.length}
@@ -159,7 +183,6 @@ function ProjectCard({
           </span>
         </div>
 
-        {/* Dark overlay on hover */}
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 pointer-events-none" />
       </div>
 
@@ -233,7 +256,10 @@ export default function Portfolio() {
     setImageIndex((i) => (i + 1) % selectedProject.images.length);
   }, [selectedProject]);
 
-  // Keyboard navigation for modal
+  // Swipe en el modal
+  const modalSwipe = useSwipe(nextImage, prevImage);
+
+  // Teclado en el modal
   useEffect(() => {
     if (!selectedProject) return;
     function onKey(e: KeyboardEvent) {
@@ -306,8 +332,11 @@ export default function Portfolio() {
             className="bg-white rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Carousel */}
-            <div className="relative bg-gray-950 h-64 sm:h-[26rem]">
+            {/* Carousel con swipe */}
+            <div
+              className="relative bg-gray-950 h-64 sm:h-[26rem] select-none"
+              {...(selectedProject.images?.length > 1 ? modalSwipe : {})}
+            >
               {selectedProject.images?.length > 0 ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -335,22 +364,23 @@ export default function Portfolio() {
                     <ChevronRight size={22} />
                   </button>
 
-                  {/* Dots */}
                   <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
                     {selectedProject.images.map((_, i) => (
                       <button
                         key={i}
                         onClick={() => setImageIndex(i)}
-                        className={`rounded-full transition-all duration-300 ${
-                          i === imageIndex ? "w-5 h-2 bg-white" : "w-2 h-2 bg-white/40"
-                        }`}
+                        className={`rounded-full transition-all duration-300 ${i === imageIndex ? "w-5 h-2 bg-white" : "w-2 h-2 bg-white/40"}`}
                       />
                     ))}
                   </div>
 
-                  {/* Counter */}
                   <div className="absolute top-3 right-12 bg-black/50 text-white text-xs rounded-full px-2.5 py-1">
                     {imageIndex + 1} / {selectedProject.images.length}
+                  </div>
+
+                  {/* Hint de swipe — solo en móvil, desaparece tras 2s */}
+                  <div className="absolute bottom-10 left-1/2 -translate-x-1/2 sm:hidden">
+                    <span className="text-white/40 text-xs">← deslizá para cambiar →</span>
                   </div>
                 </>
               )}
@@ -363,7 +393,7 @@ export default function Portfolio() {
               </button>
             </div>
 
-            {/* Thumbnails strip */}
+            {/* Thumbnails */}
             {selectedProject.images?.length > 1 && (
               <div className="flex gap-2 px-4 py-3 bg-gray-50 overflow-x-auto">
                 {selectedProject.images.map((src, i) => (
