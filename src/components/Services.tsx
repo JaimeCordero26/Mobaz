@@ -6,6 +6,7 @@ import {
   HardHat,
   Wrench,
 } from "lucide-react";
+import BuildingSkyline from "./BuildingSkyline";
 
 const services = [
   {
@@ -48,8 +49,9 @@ const services = [
 
 export default function Services() {
   return (
-    <section id="servicios" className="py-24 bg-[#e6e6e6]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="servicios" className="relative overflow-hidden py-24 bg-[#e6e6e6]">
+      <BuildingSkyline flip className="absolute -top-4 -left-16 w-[420px] h-[210px] text-[#1a1a1a]/[0.06] pointer-events-none hidden md:block" />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
           <span className="text-[#b70000] font-semibold text-sm uppercase tracking-widest">

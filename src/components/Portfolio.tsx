@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { MapPin, X, ChevronLeft, ChevronRight, Images } from "lucide-react";
 import { getClient, type Project } from "@/lib/supabase";
+import BuildingSkyline from "./BuildingSkyline";
 
 const demoProjects: Project[] = [
   {
@@ -272,8 +273,9 @@ export default function Portfolio() {
   }, [selectedProject, prevImage, nextImage, closeModal]);
 
   return (
-    <section id="portafolio" className="py-24" style={{ background: "#ffffff" }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="portafolio" className="relative overflow-hidden py-24" style={{ background: "#ffffff" }}>
+      <BuildingSkyline className="absolute -bottom-6 -right-16 w-[420px] h-[210px] text-[#333d73]/[0.07] pointer-events-none hidden md:block" />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
           <span className="text-[#b70000] font-semibold text-sm uppercase tracking-widest">

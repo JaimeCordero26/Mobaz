@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Phone, MessageCircle, MapPin, Clock, Send } from "lucide-react";
+import BuildingSkyline from "./BuildingSkyline";
 
 const WHATSAPP_NUMBER = "50688035690";
 
@@ -40,8 +41,9 @@ export default function Contact() {
   const isValid = form.name && form.phone && form.service && form.message;
 
   return (
-    <section id="contacto" className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="contacto" className="relative overflow-hidden py-24 bg-white">
+      <BuildingSkyline flip className="absolute -top-6 -left-16 w-[420px] h-[210px] text-[#b70000]/[0.06] pointer-events-none hidden md:block" />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
           <span className="text-[#b70000] font-semibold text-sm uppercase tracking-widest">
