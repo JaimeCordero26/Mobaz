@@ -47,21 +47,21 @@ export default function ResetPasswordPage() {
   return (
     <div
       className="min-h-screen flex items-center justify-center p-4"
-      style={{ background: "linear-gradient(135deg, #1e3a5f 0%, #1a5276 40%, #1e8449 100%)" }}
+      style={{ background: "#1a1a1a" }}
     >
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/api/logo" alt="Logo" className="h-14 w-auto mx-auto mb-4 object-contain"
+          <img src="/brand/logo-white.png" alt="Logo" className="h-14 w-auto mx-auto mb-4 object-contain"
             onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
           <h1 className="text-2xl font-bold text-white">Mobaz</h1>
         </div>
 
-        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 shadow-2xl">
+        <div className="bg-white/5 border border-white/15 p-8 shadow-2xl">
           {status === "success" ? (
             <div className="text-center">
-              <div className="w-14 h-14 bg-green-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <CheckCircle size={28} className="text-green-400" />
+              <div className="w-14 h-14 bg-[#b70000]/20 flex items-center justify-center mx-auto mb-4">
+                <CheckCircle size={28} className="text-[#ff8080]" />
               </div>
               <h2 className="text-lg font-bold text-white mb-2">Contraseña actualizada</h2>
               <p className="text-white/60 text-sm">Redirigiendo al panel...</p>
@@ -86,7 +86,7 @@ export default function ResetPasswordPage() {
                   <div className="relative">
                     <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/40" />
                     <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Mínimo 8 caracteres" required
-                      className="w-full bg-white/10 border border-white/20 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-green-400 text-sm" />
+                      className="w-full bg-white/10 border border-white/20 pl-10 pr-4 py-3 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[#b70000] text-sm" />
                   </div>
                 </div>
                 <div>
@@ -94,18 +94,18 @@ export default function ResetPasswordPage() {
                   <div className="relative">
                     <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/40" />
                     <input type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} placeholder="Repetí la contraseña" required
-                      className="w-full bg-white/10 border border-white/20 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-green-400 text-sm" />
+                      className="w-full bg-white/10 border border-white/20 pl-10 pr-4 py-3 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[#b70000] text-sm" />
                   </div>
                 </div>
 
                 {(errorMsg || status === "error") && (
-                  <div className="bg-red-500/20 border border-red-400/30 rounded-xl px-4 py-2.5 text-red-200 text-sm flex items-center gap-2">
+                  <div className="bg-red-500/20 border border-red-400/30 px-4 py-2.5 text-red-200 text-sm flex items-center gap-2">
                     <AlertCircle size={15} /> {errorMsg || "Ocurrió un error. Intentá de nuevo."}
                   </div>
                 )}
 
                 <button type="submit" disabled={status === "loading"}
-                  className="w-full bg-green-500 hover:bg-green-600 disabled:bg-green-800 text-white font-bold py-3 rounded-xl transition-colors shadow-lg flex items-center justify-center gap-2">
+                  className="w-full bg-[#b70000] hover:bg-[#960000] disabled:bg-[#5a0000] text-white font-bold py-3 transition-colors shadow-lg flex items-center justify-center gap-2">
                   {status === "loading" ? (
                     <><span className="animate-spin inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full" /> Guardando...</>
                   ) : "Guardar nueva contraseña"}

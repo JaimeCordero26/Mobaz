@@ -11,10 +11,10 @@ import {
 const categories = ["Residencial", "Comercial", "Apartamentos", "Remodelación"];
 
 const catColors: Record<string, string> = {
-  Residencial: "bg-blue-100 text-blue-700",
-  Comercial: "bg-green-100 text-green-700",
-  Apartamentos: "bg-purple-100 text-purple-700",
-  Remodelación: "bg-orange-100 text-orange-700",
+  Residencial: "bg-[#333d73] text-white",
+  Comercial: "bg-[#b70000] text-white",
+  Apartamentos: "bg-[#1a1a1a] text-white",
+  Remodelación: "bg-[#1a1a1a]/70 text-white",
 };
 
 type Screen = "loading" | "setup" | "login" | "forgot" | "forgot-sent" | "panel";
@@ -37,13 +37,13 @@ function AuthShell({ children }: { children: React.ReactNode }) {
   return (
     <div
       className="min-h-screen flex items-center justify-center p-4"
-      style={{ background: "linear-gradient(135deg, #1e3a5f 0%, #1a5276 40%, #1e8449 100%)" }}
+      style={{ background: "#1a1a1a" }}
     >
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/api/logo"
+            src="/brand/logo-white.png"
             alt="Logo"
             className="h-16 w-auto mx-auto mb-4 object-contain"
             onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
@@ -79,7 +79,7 @@ function InputField({
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
           required
-          className="w-full bg-white/10 border border-white/20 rounded-xl pl-10 pr-4 py-3 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent text-sm"
+          className="w-full bg-white/10 border border-white/20 pl-10 pr-4 py-3 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-[#b70000] focus:border-transparent text-sm"
         />
       </div>
     </div>
@@ -113,10 +113,10 @@ function SetupScreen({ onDone }: { onDone: () => void }) {
 
   return (
     <AuthShell>
-      <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 shadow-2xl">
+      <div className="bg-white/5 border border-white/15 p-8 shadow-2xl">
         <div className="flex items-center gap-2 mb-1">
-          <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-          <span className="text-green-300 text-xs font-semibold uppercase tracking-wide">Primera configuración</span>
+          <div className="w-2 h-2 rounded-full bg-[#b70000] animate-pulse" />
+          <span className="text-[#ff8080] text-xs font-semibold uppercase tracking-wide">Primera configuración</span>
         </div>
         <h2 className="text-lg font-bold text-white mb-1">Crear cuenta de administrador</h2>
         <p className="text-white/50 text-xs mb-6">Esta pantalla solo aparece una vez. Guardá bien tus datos.</p>
@@ -127,7 +127,7 @@ function SetupScreen({ onDone }: { onDone: () => void }) {
           <InputField label="Confirmar contraseña" type="password" value={confirm} onChange={setConfirm} placeholder="Repetí la contraseña" icon={Lock} />
 
           {error && (
-            <div className="bg-red-500/20 border border-red-400/30 rounded-xl px-4 py-2.5 text-red-200 text-sm">
+            <div className="bg-red-500/20 border border-red-400/30 px-4 py-2.5 text-red-200 text-sm">
               {error}
             </div>
           )}
@@ -135,7 +135,7 @@ function SetupScreen({ onDone }: { onDone: () => void }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-green-500 hover:bg-green-600 disabled:bg-green-800 text-white font-bold py-3 rounded-xl transition-colors shadow-lg flex items-center justify-center gap-2 mt-2"
+            className="w-full bg-[#b70000] hover:bg-[#960000] disabled:bg-[#5a0000] text-white font-bold py-3 transition-colors shadow-lg flex items-center justify-center gap-2 mt-2"
           >
             {loading ? (
               <><span className="animate-spin inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full" /> Creando cuenta...</>
@@ -184,14 +184,14 @@ function LoginScreen({ onLogin, onForgot, onReset }: { onLogin: () => void; onFo
 
   return (
     <AuthShell>
-      <form onSubmit={handleLogin} className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 shadow-2xl">
+      <form onSubmit={handleLogin} className="bg-white/5 border border-white/15 p-8 shadow-2xl">
         <h2 className="text-lg font-semibold text-white mb-6">Iniciar sesión</h2>
         <div className="space-y-4">
           <InputField label="Correo electrónico" type="email" value={email} onChange={setEmail} placeholder="admin@ejemplo.com" icon={Mail} />
           <InputField label="Contraseña" type="password" value={password} onChange={setPassword} placeholder="••••••••" icon={Lock} />
 
           {error && (
-            <div className="bg-red-500/20 border border-red-400/30 rounded-xl px-4 py-2.5 text-red-200 text-sm">
+            <div className="bg-red-500/20 border border-red-400/30 px-4 py-2.5 text-red-200 text-sm">
               {error}
             </div>
           )}
@@ -199,7 +199,7 @@ function LoginScreen({ onLogin, onForgot, onReset }: { onLogin: () => void; onFo
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-green-500 hover:bg-green-600 disabled:bg-green-800 text-white font-bold py-3 rounded-xl transition-colors shadow-lg flex items-center justify-center gap-2"
+            className="w-full bg-[#b70000] hover:bg-[#960000] disabled:bg-[#5a0000] text-white font-bold py-3 transition-colors shadow-lg flex items-center justify-center gap-2"
           >
             {loading ? (
               <><span className="animate-spin inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full" /> Ingresando...</>
@@ -224,7 +224,7 @@ function LoginScreen({ onLogin, onForgot, onReset }: { onLogin: () => void; onFo
                 type="button"
                 onClick={handleResetSetup}
                 disabled={resetting}
-                className="w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white/70 hover:text-white text-sm font-medium py-2.5 rounded-xl transition-all flex items-center justify-center gap-2"
+                className="w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white/70 hover:text-white text-sm font-medium py-2.5 transition-all flex items-center justify-center gap-2"
               >
                 {resetting
                   ? <><span className="animate-spin inline-block w-3 h-3 border-2 border-white/30 border-t-white rounded-full" /> Reiniciando...</>
@@ -261,7 +261,7 @@ function ForgotScreen({ onBack, onSent }: { onBack: () => void; onSent: () => vo
 
   return (
     <AuthShell>
-      <form onSubmit={handleReset} className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 shadow-2xl">
+      <form onSubmit={handleReset} className="bg-white/5 border border-white/15 p-8 shadow-2xl">
         <button type="button" onClick={onBack} className="flex items-center gap-1.5 text-white/50 hover:text-white/80 text-sm mb-5 transition-colors">
           <ArrowLeft size={14} /> Volver
         </button>
@@ -272,7 +272,7 @@ function ForgotScreen({ onBack, onSent }: { onBack: () => void; onSent: () => vo
           <InputField label="Correo electrónico" type="email" value={email} onChange={setEmail} placeholder="admin@ejemplo.com" icon={Mail} />
 
           {error && (
-            <div className="bg-red-500/20 border border-red-400/30 rounded-xl px-4 py-2.5 text-red-200 text-sm">
+            <div className="bg-red-500/20 border border-red-400/30 px-4 py-2.5 text-red-200 text-sm">
               {error}
             </div>
           )}
@@ -280,7 +280,7 @@ function ForgotScreen({ onBack, onSent }: { onBack: () => void; onSent: () => vo
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-green-500 hover:bg-green-600 disabled:bg-green-800 text-white font-bold py-3 rounded-xl transition-colors shadow-lg flex items-center justify-center gap-2"
+            className="w-full bg-[#b70000] hover:bg-[#960000] disabled:bg-[#5a0000] text-white font-bold py-3 transition-colors shadow-lg flex items-center justify-center gap-2"
           >
             {loading ? (
               <><span className="animate-spin inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full" /> Enviando...</>
@@ -296,9 +296,9 @@ function ForgotScreen({ onBack, onSent }: { onBack: () => void; onSent: () => vo
 function ForgotSentScreen({ onBack }: { onBack: () => void }) {
   return (
     <AuthShell>
-      <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 shadow-2xl text-center">
-        <div className="w-14 h-14 bg-green-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
-          <CheckCircle size={28} className="text-green-400" />
+      <div className="bg-white/5 border border-white/15 p-8 shadow-2xl text-center">
+        <div className="w-14 h-14 bg-[#b70000]/20 flex items-center justify-center mx-auto mb-4">
+          <CheckCircle size={28} className="text-[#ff8080]" />
         </div>
         <h2 className="text-lg font-bold text-white mb-2">Correo enviado</h2>
         <p className="text-white/60 text-sm leading-relaxed mb-6">
@@ -307,7 +307,7 @@ function ForgotSentScreen({ onBack }: { onBack: () => void }) {
         </p>
         <button
           onClick={onBack}
-          className="w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold py-3 rounded-xl transition-colors text-sm"
+          className="w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold py-3 transition-colors text-sm"
         >
           Volver al login
         </button>
@@ -462,7 +462,7 @@ export default function AdminPage() {
   // ── Screen routing ──
   if (screen === "loading") {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "linear-gradient(135deg, #1e3a5f 0%, #1a5276 40%, #1e8449 100%)" }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "#1a1a1a" }}>
         <div className="text-center">
           <div className="animate-spin w-10 h-10 border-4 border-white/20 border-t-white rounded-full mx-auto mb-4" />
           <p className="text-white/50 text-sm">Cargando...</p>
@@ -478,7 +478,7 @@ export default function AdminPage() {
 
   // ── Panel ─────────────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen" style={{ background: "linear-gradient(160deg, #f0f4ff 0%, #e8f5f0 100%)" }}>
+    <div className="min-h-screen" style={{ background: "#e6e6e6" }}>
       <header className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -490,7 +490,7 @@ export default function AdminPage() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <a href="/" target="_blank" className="flex items-center gap-1.5 text-xs sm:text-sm text-gray-500 hover:text-blue-700 font-medium px-3 py-1.5 rounded-lg hover:bg-blue-50 transition-all">
+            <a href="/" target="_blank" className="flex items-center gap-1.5 text-xs sm:text-sm text-gray-500 hover:text-[#333d73] font-medium px-3 py-1.5 rounded-lg hover:bg-[#333d73]/10 transition-all">
               <Eye size={14} /><span className="hidden sm:inline">Ver sitio</span>
             </a>
             <button onClick={handleSignOut} className="flex items-center gap-1.5 text-xs sm:text-sm text-gray-500 hover:text-red-600 font-medium px-3 py-1.5 rounded-lg hover:bg-red-50 transition-all">
@@ -501,32 +501,38 @@ export default function AdminPage() {
       </header>
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Stats */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-          {[
-            { label: "Total proyectos", value: projects.length, color: "text-blue-700" },
-            { label: "Residencial", value: projects.filter(p => p.category === "Residencial").length, color: "text-blue-600" },
-            { label: "Comercial", value: projects.filter(p => p.category === "Comercial").length, color: "text-green-600" },
-            { label: "Apartamentos", value: projects.filter(p => p.category === "Apartamentos").length, color: "text-purple-600" },
-          ].map((s) => (
-            <div key={s.label} className="bg-white rounded-2xl p-4 shadow-sm border border-white">
-              <div className={`text-2xl font-bold ${s.color}`}>{s.value}</div>
-              <div className="text-xs text-gray-500 mt-0.5">{s.label}</div>
-            </div>
-          ))}
+        {/* Stats — bento grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 mb-8">
+          <div className="bg-[#1a1a1a] p-6 sm:p-8 flex flex-col justify-center col-span-2 sm:col-span-1">
+            <div className="text-5xl sm:text-6xl font-bold text-white">{projects.length}</div>
+            <div className="text-white/50 text-sm mt-2 uppercase tracking-wide">Total proyectos</div>
+          </div>
+          <div className="grid grid-cols-2 gap-4 col-span-2 sm:col-span-1">
+            {[
+              { label: "Residencial", value: projects.filter((p) => p.category === "Residencial").length },
+              { label: "Comercial", value: projects.filter((p) => p.category === "Comercial").length },
+              { label: "Apartamentos", value: projects.filter((p) => p.category === "Apartamentos").length },
+              { label: "Remodelación", value: projects.filter((p) => p.category === "Remodelación").length },
+            ].map((s) => (
+              <div key={s.label} className="bg-white p-4 border border-[#e6e6e6]">
+                <div className="text-2xl font-bold text-[#b70000]">{s.value}</div>
+                <div className="text-xs text-gray-500 mt-0.5">{s.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Top bar */}
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-              <FolderOpen size={20} className="text-blue-600" /> Proyectos
+              <FolderOpen size={20} className="text-[#333d73]" /> Proyectos
             </h2>
             <p className="text-sm text-gray-500 mt-0.5">{projects.length} proyecto(s) en total</p>
           </div>
           <button
             onClick={openCreate}
-            className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-4 sm:px-5 py-2.5 rounded-xl transition-colors shadow-md text-sm"
+            className="flex items-center gap-2 bg-[#b70000] hover:bg-[#960000] text-white font-semibold px-4 sm:px-5 py-2.5 transition-colors shadow-md text-sm"
           >
             <Plus size={17} /> Nuevo proyecto
           </button>
@@ -534,10 +540,10 @@ export default function AdminPage() {
 
         {/* Form */}
         {mode && (
-          <div id="admin-form" className="bg-white rounded-2xl shadow-md border border-gray-100 mb-8 overflow-hidden">
+          <div id="admin-form" className="bg-white shadow-md border border-gray-100 mb-8 overflow-hidden">
             <div
               className="px-6 py-4 border-b border-gray-100 flex items-center justify-between"
-              style={{ background: mode === "create" ? "linear-gradient(90deg,#1a5276,#1e8449)" : "linear-gradient(90deg,#1e3a5f,#1a5276)" }}
+              style={{ background: mode === "create" ? "#1a1a1a" : "#333d73" }}
             >
               <div>
                 <h3 className="text-base font-bold text-white">{mode === "create" ? "✦ Nuevo proyecto" : "✎ Editando proyecto"}</h3>
@@ -551,24 +557,24 @@ export default function AdminPage() {
                 <div>
                   <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Nombre del proyecto *</label>
                   <input type="text" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Ej: Residencial Los Robles"
-                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 focus:bg-white transition-colors" />
+                    className="w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#333d73] bg-gray-50 focus:bg-white transition-colors" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5"><MapPin size={11} className="inline mr-1" />Ubicación *</label>
                   <input type="text" required value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} placeholder="Ej: San José, Costa Rica"
-                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 focus:bg-white transition-colors" />
+                    className="w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#333d73] bg-gray-50 focus:bg-white transition-colors" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5"><Tag size={11} className="inline mr-1" />Categoría *</label>
                   <select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}
-                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 focus:bg-white transition-colors">
+                    className="w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#333d73] bg-gray-50 focus:bg-white transition-colors">
                     {categories.map((c) => <option key={c} value={c}>{c}</option>)}
                   </select>
                 </div>
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Descripción *</label>
                   <textarea required value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={3} placeholder="Descripción breve del proyecto..."
-                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none bg-gray-50 focus:bg-white transition-colors" />
+                    className="w-full border border-gray-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#333d73] resize-none bg-gray-50 focus:bg-white transition-colors" />
                 </div>
 
                 {mode === "edit" && form.existingImages.length > 0 && (
@@ -578,7 +584,7 @@ export default function AdminPage() {
                       {form.existingImages.map((url) => (
                         <div key={url} className="relative group">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={url} alt="" className="w-20 h-20 object-cover rounded-xl border-2 border-gray-200 group-hover:border-red-300 transition-colors" />
+                          <img src={url} alt="" className="w-20 h-20 object-cover border-2 border-gray-200 group-hover:border-red-300 transition-colors" />
                           <button type="button" onClick={() => removeExisting(url)}
                             className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center shadow-md opacity-0 group-hover:opacity-100 transition-opacity">
                             <X size={11} />
@@ -593,11 +599,11 @@ export default function AdminPage() {
                   <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
                     {mode === "edit" ? "Agregar más fotos" : "Fotos del proyecto"}
                   </label>
-                  <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-200 hover:border-blue-400 rounded-xl p-6 cursor-pointer transition-all group bg-gray-50 hover:bg-blue-50">
-                    <div className="w-10 h-10 rounded-full bg-blue-100 group-hover:bg-blue-200 flex items-center justify-center mb-2 transition-colors">
-                      <Upload size={18} className="text-blue-600" />
+                  <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-200 hover:border-[#333d73] p-6 cursor-pointer transition-all group bg-gray-50 hover:bg-[#333d73]/10">
+                    <div className="w-10 h-10 rounded-full bg-[#333d73]/10 group-hover:bg-[#333d73]/20 flex items-center justify-center mb-2 transition-colors">
+                      <Upload size={18} className="text-[#333d73]" />
                     </div>
-                    <span className="text-sm font-medium text-gray-600 group-hover:text-blue-700">Clic para subir fotos</span>
+                    <span className="text-sm font-medium text-gray-600 group-hover:text-[#333d73]">Clic para subir fotos</span>
                     <span className="text-xs text-gray-400 mt-0.5">JPG, PNG, WEBP, SVG — múltiples archivos</span>
                     <input type="file" multiple accept="image/*" className="hidden" onChange={handleFileChange} />
                   </label>
@@ -606,12 +612,12 @@ export default function AdminPage() {
                       {previewUrls.map((url, i) => (
                         <div key={i} className="relative group">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={url} alt="" className="w-20 h-20 object-cover rounded-xl border-2 border-green-200" />
+                          <img src={url} alt="" className="w-20 h-20 object-cover border-2 border-[#b70000]/40" />
                           <button type="button" onClick={() => removePending(i)}
                             className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center shadow-md">
                             <X size={11} />
                           </button>
-                          <div className="absolute bottom-0 left-0 right-0 bg-green-600 text-white text-center text-[9px] py-0.5 rounded-b-xl font-medium">NUEVA</div>
+                          <div className="absolute bottom-0 left-0 right-0 bg-[#b70000] text-white text-center text-[9px] py-0.5 font-medium">NUEVA</div>
                         </div>
                       ))}
                     </div>
@@ -621,12 +627,12 @@ export default function AdminPage() {
 
               <div className="flex flex-wrap gap-3 mt-6 pt-5 border-t border-gray-100">
                 <button type="submit" disabled={uploading}
-                  className="flex items-center gap-2 bg-blue-700 hover:bg-blue-800 disabled:bg-gray-300 text-white font-bold px-6 py-3 rounded-xl transition-colors shadow-md text-sm">
+                  className="flex items-center gap-2 bg-[#1a1a1a] hover:bg-[#b70000] disabled:bg-gray-300 text-white font-bold px-6 py-3 transition-colors shadow-md text-sm">
                   {uploading ? (
                     <><span className="animate-spin inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full" /> Subiendo fotos...</>
                   ) : mode === "create" ? <><Plus size={15} /> Guardar proyecto</> : <><Pencil size={15} /> Guardar cambios</>}
                 </button>
-                <button type="button" onClick={closeForm} className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-6 py-3 rounded-xl transition-colors text-sm">
+                <button type="button" onClick={closeForm} className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-6 py-3 transition-colors text-sm">
                   Cancelar
                 </button>
               </div>
@@ -637,11 +643,11 @@ export default function AdminPage() {
         {/* Projects grid */}
         {loadingProjects ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {[1, 2, 3, 4, 5, 6].map((i) => <div key={i} className="bg-white rounded-2xl animate-pulse h-48 shadow-sm" />)}
+            {[1, 2, 3, 4, 5, 6].map((i) => <div key={i} className="bg-white animate-pulse h-48 shadow-sm" />)}
           </div>
         ) : projects.length === 0 ? (
-          <div className="text-center py-20 bg-white rounded-2xl shadow-sm border border-gray-100">
-            <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+          <div className="text-center py-20 bg-white shadow-sm border border-gray-100">
+            <div className="w-16 h-16 bg-gray-100 flex items-center justify-center mx-auto mb-4">
               <FolderOpen size={28} className="text-gray-400" />
             </div>
             <p className="text-gray-600 font-medium">No hay proyectos aún</p>
@@ -651,9 +657,9 @@ export default function AdminPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {projects.map((project) => (
               <div key={project.id}
-                className={`bg-white rounded-2xl border overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col ${editingId === project.id ? "border-blue-400 ring-2 ring-blue-100" : "border-gray-100 hover:border-gray-200"}`}>
+                className={`bg-white border overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col ${editingId === project.id ? "border-[#333d73] ring-2 ring-[#333d73]/10" : "border-[#e6e6e6] hover:border-[#1a1a1a]/20"}`}>
                 <button type="button" onClick={() => { setPreviewProject(project); setCarouselIndex(0); }}
-                  className="relative h-44 bg-gradient-to-br from-blue-50 to-green-50 overflow-hidden group flex-shrink-0 w-full">
+                  className="relative h-44 bg-[#e6e6e6] overflow-hidden group flex-shrink-0 w-full">
                   {project.images?.[0] ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={project.images[0]} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -682,7 +688,7 @@ export default function AdminPage() {
                   </div>
                   <div className="flex items-center gap-2 mt-4 pt-3 border-t border-gray-50">
                     <button onClick={() => openEdit(project)}
-                      className="flex-1 flex items-center justify-center gap-1.5 text-xs text-blue-600 hover:text-white hover:bg-blue-600 font-semibold py-2 rounded-lg transition-all border border-blue-200 hover:border-blue-600">
+                      className="flex-1 flex items-center justify-center gap-1.5 text-xs text-[#333d73] hover:text-white hover:bg-[#333d73] font-semibold py-2 rounded-lg transition-all border border-[#333d73]/30 hover:border-[#333d73]">
                       <Pencil size={12} /> Editar
                     </button>
                     <button onClick={() => handleDelete(project.id)}
@@ -700,7 +706,7 @@ export default function AdminPage() {
       {/* Image preview modal */}
       {previewProject && (
         <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4" onClick={() => setPreviewProject(null)}>
-          <div className="relative bg-gray-950 rounded-2xl overflow-hidden max-w-2xl w-full shadow-2xl" onClick={(e) => e.stopPropagation()}>
+          <div className="relative bg-gray-950 overflow-hidden max-w-2xl w-full shadow-2xl" onClick={(e) => e.stopPropagation()}>
             <div className="relative h-64 sm:h-96">
               {previewProject.images?.[carouselIndex] ? (
                 // eslint-disable-next-line @next/next/no-img-element
