@@ -1,10 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { Phone, MessageCircle, MapPin, Clock, Send } from "lucide-react";
+import { MessageCircle, MapPin, Clock, Send } from "lucide-react";
 import BuildingSkyline from "./BuildingSkyline";
 
-const WHATSAPP_NUMBER = "50688035690";
+const CONTACTS = [
+  { name: "Jason Mora", phone: "83276566" },
+  { name: "Bryan Mora", phone: "83425820" },
+];
+
+function waNumber(phone: string) {
+  return `506${phone}`;
+}
+
+function formatPhone(phone: string) {
+  return `${phone.slice(0, 4)}-${phone.slice(4)}`;
+}
 
 export default function Contact() {
   const [form, setForm] = useState({
@@ -13,6 +24,7 @@ export default function Contact() {
     email: "",
     service: "",
     message: "",
+    recipient: "",
   });
 
   const services = [
@@ -33,12 +45,13 @@ export default function Contact() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    const contact = CONTACTS.find((c) => c.name === form.recipient) || CONTACTS[0];
     const msg = `Hola Mobaz! 👋\n\n*Nombre:* ${form.name}\n*Teléfono:* ${form.phone}\n*Email:* ${form.email}\n*Servicio:* ${form.service}\n*Mensaje:* ${form.message}`;
-    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+    const url = `https://wa.me/${waNumber(contact.phone)}?text=${encodeURIComponent(msg)}`;
     window.open(url, "_blank");
   }
 
-  const isValid = form.name && form.phone && form.service && form.message;
+  const isValid = form.name && form.phone && form.service && form.message && form.recipient;
 
   return (
     <section id="contacto" className="relative overflow-hidden py-24 bg-white">
@@ -63,33 +76,23 @@ export default function Contact() {
             <div className="bg-white rounded-2xl p-7 shadow-sm border border-gray-100">
               <h3 className="text-xl font-bold text-gray-900 mb-6">Información de contacto</h3>
               <div className="space-y-5">
-                <a
-                  href={`tel:+${WHATSAPP_NUMBER}`}
-                  className="flex items-center gap-4 group"
-                >
-                  <div className="w-12 h-12 bg-[#e6e6e6] rounded-xl flex items-center justify-center group-hover:bg-[#333d73]/10 transition-colors">
-                    <Phone size={20} className="text-[#333d73]" />
-                  </div>
-                  <div>
-                    <div className="text-xs text-gray-400 font-medium">Teléfono</div>
-                    <div className="font-semibold text-gray-900">8803-5690</div>
-                  </div>
-                </a>
-
-                <a
-                  href={`https://wa.me/${WHATSAPP_NUMBER}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-4 group"
-                >
-                  <div className="w-12 h-12 bg-[#e6e6e6] rounded-xl flex items-center justify-center group-hover:bg-[#b70000]/10 transition-colors">
-                    <MessageCircle size={20} className="text-[#b70000]" />
-                  </div>
-                  <div>
-                    <div className="text-xs text-gray-400 font-medium">WhatsApp</div>
-                    <div className="font-semibold text-gray-900">8803-5690</div>
-                  </div>
-                </a>
+                {CONTACTS.map((contact) => (
+                  <a
+                    key={contact.name}
+                    href={`https://wa.me/${waNumber(contact.phone)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-4 group"
+                  >
+                    <div className="w-12 h-12 bg-[#e6e6e6] rounded-xl flex items-center justify-center group-hover:bg-[#b70000]/10 transition-colors">
+                      <MessageCircle size={20} className="text-[#b70000]" />
+                    </div>
+                    <div>
+                      <div className="text-xs text-gray-400 font-medium">{contact.name}</div>
+                      <div className="font-semibold text-gray-900">{formatPhone(contact.phone)}</div>
+                    </div>
+                  </a>
+                ))}
 
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-[#e6e6e6] rounded-xl flex items-center justify-center">
@@ -113,16 +116,21 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* WhatsApp direct */}
-            <a
-              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola! Me gustaría información sobre sus servicios de construcción.")}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-3 bg-[#b70000] hover:bg-[#960000] text-white font-bold px-6 py-4 w-full transition-colors duration-200"
-            >
-              <MessageCircle size={22} />
-              Chatear por WhatsApp
-            </a>
+            {/* WhatsApp directo — uno por contacto */}
+            <div className="space-y-3">
+              {CONTACTS.map((contact) => (
+                <a
+                  key={contact.name}
+                  href={`https://wa.me/${waNumber(contact.phone)}?text=${encodeURIComponent("Hola! Me gustaría información sobre sus servicios de construcción.")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 bg-[#b70000] hover:bg-[#960000] text-white font-bold px-6 py-4 w-full transition-colors duration-200"
+                >
+                  <MessageCircle size={22} />
+                  Chatear con {contact.name}
+                </a>
+              ))}
+            </div>
           </div>
 
           {/* Form */}
@@ -189,6 +197,24 @@ export default function Contact() {
                     <option value="">Seleccionar servicio...</option>
                     {services.map((s) => (
                       <option key={s} value={s}>{s}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    ¿A quién enviar tu mensaje? *
+                  </label>
+                  <select
+                    name="recipient"
+                    value={form.recipient}
+                    onChange={handleChange}
+                    required
+                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#333d73] focus:border-transparent transition bg-white"
+                  >
+                    <option value="">Seleccionar contacto...</option>
+                    {CONTACTS.map((c) => (
+                      <option key={c.name} value={c.name}>{c.name} — {formatPhone(c.phone)}</option>
                     ))}
                   </select>
                 </div>

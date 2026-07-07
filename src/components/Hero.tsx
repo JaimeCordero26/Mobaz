@@ -16,7 +16,7 @@ export default function Hero() {
           <div className="inline-flex items-center gap-2 border border-[#e6e6e6] px-4 py-2 mb-8">
             <span className="w-2 h-2 bg-[#b70000] flex-shrink-0" />
             <span className="text-[#1a1a1a]/70 text-sm font-medium">
-              Más de 23 años construyendo sueños
+              Más de 10 años construyendo sueños
             </span>
           </div>
 
@@ -53,7 +53,7 @@ export default function Hero() {
           <div className="border-t border-[#e6e6e6] pt-8 grid grid-cols-3 gap-4 sm:gap-8">
             {[
               { number: "✔", label: "Múltiples proyectos" },
-              { number: "23+", label: "Años de exp." },
+              { number: "10+", label: "Años de exp." },
               { number: "100%", label: "Satisfacción" },
             ].map((stat) => (
               <div key={stat.label} className="text-center">

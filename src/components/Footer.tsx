@@ -1,4 +1,9 @@
-import { MessageCircle, Phone } from "lucide-react";
+import { MessageCircle } from "lucide-react";
+
+const CONTACTS = [
+  { name: "Jason Mora", phone: "83276566" },
+  { name: "Bryan Mora", phone: "83425820" },
+];
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -42,22 +47,18 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold text-gray-200 mb-4">Contacto directo</h4>
             <div className="space-y-3">
-              <a
-                href="tel:+50688035690"
-                className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors text-sm"
-              >
-                <Phone size={16} className="text-[#b70000]" />
-                8803-5690
-              </a>
-              <a
-                href="https://wa.me/50688035690"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors text-sm"
-              >
-                <MessageCircle size={16} className="text-[#b70000]" />
-                WhatsApp
-              </a>
+              {CONTACTS.map((contact) => (
+                <a
+                  key={contact.name}
+                  href={`https://wa.me/506${contact.phone}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors text-sm"
+                >
+                  <MessageCircle size={16} className="text-[#b70000]" />
+                  {contact.name} — {contact.phone.slice(0, 4)}-{contact.phone.slice(4)}
+                </a>
+              ))}
             </div>
           </div>
         </div>
