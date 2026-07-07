@@ -62,8 +62,19 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/10 mt-10 pt-6 text-center text-gray-500 text-sm">
-          © {currentYear} Mobaz. Todos los derechos reservados.
+        <div className="border-t border-white/10 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-gray-500 text-sm">
+          <span>© {currentYear} Mobaz. Todos los derechos reservados.</span>
+          <a
+            href="https://sacortech.xyz"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-gray-500 hover:text-white transition-colors"
+          >
+            Desarrollado por Sacortech
+            <span className="w-5 h-5 flex items-center justify-center border border-gray-600 text-gray-300 text-xs font-bold">
+              R
+            </span>
+          </a>
         </div>
       </div>
     </footer>
