@@ -25,8 +25,8 @@ export const metadata: Metadata = {
   description: "Mobaz: consultoría, construcción y arquitectura. Tu visión, nuestra construcción.",
   keywords: "construcción, arquitectura, consultoría, remodelaciones, Costa Rica, Mobaz",
   icons: {
-    icon: "/api/logo",
-    apple: "/api/logo",
+    icon: "/logo/logo.png",
+    apple: "/logo/logo.png",
   },
 };
 

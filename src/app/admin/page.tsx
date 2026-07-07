@@ -483,7 +483,7 @@ export default function AdminPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/api/logo" alt="Logo" className="h-9 w-auto object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
+            <img src="/logo/logo.png" alt="Logo" className="h-9 w-auto object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
             <div>
               <span className="font-bold text-gray-900 text-sm">Panel Admin</span>
               <span className="hidden sm:inline text-gray-400 text-xs ml-2">Mobaz</span>

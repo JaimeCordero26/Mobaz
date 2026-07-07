@@ -32,7 +32,7 @@ export default function Navbar() {
           <a href="#inicio" className="flex items-center flex-shrink-0 min-w-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/api/logo"
+              src="/logo/logo.png"
               alt="Mobaz"
               className="h-10 sm:h-12 w-auto object-contain max-w-[160px] sm:max-w-xs"
             />
