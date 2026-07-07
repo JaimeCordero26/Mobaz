@@ -27,5 +27,12 @@
   },
   "observability": {
     "enabled": true
+  },
+  "vars": {
+    "R2_ACCOUNT_ID": "276cbfe7012e46fba9b706c0dd1bdd7f",
+    "R2_BUCKET_NAME": "mobaz-portfolio",
+    "R2_PUBLIC_URL": "https://pub-739100353d314d7d9e833e57b96109d3.r2.dev",
+    "NEXT_PUBLIC_SUPABASE_URL": "https://fxtsrisivcvcmtgaabcv.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "sb_publishable_Y2O5-sy18rIUYZLdcujiJQ_d6oQ0jLz"
   }
 }
