@@ -66,7 +66,7 @@ export default function Contact() {
             Contáctanos
           </h2>
           <p className="text-gray-500 text-lg max-w-2xl mx-auto">
-            ¿Tenés un proyecto en mente? Escribinos y te damos una cotización gratuita sin compromiso.
+            ¿Tenés un proyecto en mente? Escríbenos y te damos una cotización gratuita sin compromiso.
           </p>
         </div>
 
@@ -110,7 +110,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <div className="text-xs text-gray-400 font-medium">Horario</div>
-                    <div className="font-semibold text-gray-900">Lun - Sáb: 7am - 6pm</div>
+                    <div className="font-semibold text-gray-900">Lun - Sáb: 7am - 5pm</div>
                   </div>
                 </div>
               </div>

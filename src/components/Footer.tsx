@@ -71,10 +71,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-gray-500 hover:text-white transition-colors"
           >
-            Desarrollado por Sacortech
-            <span className="w-5 h-5 flex items-center justify-center border border-gray-600 text-gray-300 text-xs font-bold">
-              R
-            </span>
+            Desarrollado por Sacortech<span className="align-super text-[10px] ml-0.5">™</span>
           </a>
         </div>
       </div>
