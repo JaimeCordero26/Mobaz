@@ -32,7 +32,7 @@ export default function Contact() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const msg = `Hola SC Servicios Constructivos! 👋\n\n*Nombre:* ${form.name}\n*Teléfono:* ${form.phone}\n*Email:* ${form.email}\n*Servicio:* ${form.service}\n*Mensaje:* ${form.message}`;
+    const msg = `Hola Mobaz! 👋\n\n*Nombre:* ${form.name}\n*Teléfono:* ${form.phone}\n*Email:* ${form.email}\n*Servicio:* ${form.service}\n*Mensaje:* ${form.message}`;
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
     window.open(url, "_blank");
   }
@@ -40,11 +40,11 @@ export default function Contact() {
   const isValid = form.name && form.phone && form.service && form.message;
 
   return (
-    <section id="contacto" className="py-24" style={{ background: "linear-gradient(160deg, #e8f5f0 0%, #f0f4ff 100%)" }}>
+    <section id="contacto" className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
-          <span className="text-green-600 font-semibold text-sm uppercase tracking-widest">
+          <span className="text-[#b70000] font-semibold text-sm uppercase tracking-widest">
             Hablemos
           </span>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
@@ -65,8 +65,8 @@ export default function Contact() {
                   href={`tel:+${WHATSAPP_NUMBER}`}
                   className="flex items-center gap-4 group"
                 >
-                  <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center group-hover:bg-blue-100 transition-colors">
-                    <Phone size={20} className="text-blue-600" />
+                  <div className="w-12 h-12 bg-[#e6e6e6] rounded-xl flex items-center justify-center group-hover:bg-[#333d73]/10 transition-colors">
+                    <Phone size={20} className="text-[#333d73]" />
                   </div>
                   <div>
                     <div className="text-xs text-gray-400 font-medium">Teléfono</div>
@@ -80,8 +80,8 @@ export default function Contact() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-4 group"
                 >
-                  <div className="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center group-hover:bg-green-100 transition-colors">
-                    <MessageCircle size={20} className="text-green-600" />
+                  <div className="w-12 h-12 bg-[#e6e6e6] rounded-xl flex items-center justify-center group-hover:bg-[#b70000]/10 transition-colors">
+                    <MessageCircle size={20} className="text-[#b70000]" />
                   </div>
                   <div>
                     <div className="text-xs text-gray-400 font-medium">WhatsApp</div>
@@ -90,8 +90,8 @@ export default function Contact() {
                 </a>
 
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center">
-                    <MapPin size={20} className="text-blue-600" />
+                  <div className="w-12 h-12 bg-[#e6e6e6] rounded-xl flex items-center justify-center">
+                    <MapPin size={20} className="text-[#333d73]" />
                   </div>
                   <div>
                     <div className="text-xs text-gray-400 font-medium">Ubicación</div>
@@ -100,8 +100,8 @@ export default function Contact() {
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center">
-                    <Clock size={20} className="text-green-600" />
+                  <div className="w-12 h-12 bg-[#e6e6e6] rounded-xl flex items-center justify-center">
+                    <Clock size={20} className="text-[#b70000]" />
                   </div>
                   <div>
                     <div className="text-xs text-gray-400 font-medium">Horario</div>
@@ -116,7 +116,7 @@ export default function Contact() {
               href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola! Me gustaría información sobre sus servicios de construcción.")}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-3 bg-green-500 hover:bg-green-600 text-white font-bold px-6 py-4 rounded-2xl w-full transition-all duration-200 shadow-lg hover:shadow-xl"
+              className="flex items-center justify-center gap-3 bg-[#b70000] hover:bg-[#960000] text-white font-bold px-6 py-4 w-full transition-colors duration-200"
             >
               <MessageCircle size={22} />
               Chatear por WhatsApp
@@ -140,7 +140,7 @@ export default function Contact() {
                       onChange={handleChange}
                       required
                       placeholder="Tu nombre completo"
-                      className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#333d73] focus:border-transparent transition"
                     />
                   </div>
                   <div>
@@ -154,7 +154,7 @@ export default function Contact() {
                       onChange={handleChange}
                       required
                       placeholder="8888-8888"
-                      className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#333d73] focus:border-transparent transition"
                     />
                   </div>
                 </div>
@@ -169,7 +169,7 @@ export default function Contact() {
                     value={form.email}
                     onChange={handleChange}
                     placeholder="correo@ejemplo.com"
-                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#333d73] focus:border-transparent transition"
                   />
                 </div>
 
@@ -182,7 +182,7 @@ export default function Contact() {
                     value={form.service}
                     onChange={handleChange}
                     required
-                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white"
+                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#333d73] focus:border-transparent transition bg-white"
                   >
                     <option value="">Seleccionar servicio...</option>
                     {services.map((s) => (
@@ -202,14 +202,14 @@ export default function Contact() {
                     required
                     rows={4}
                     placeholder="Cuéntanos sobre tu proyecto: tamaño, ubicación, materiales que tenés en mente, presupuesto aproximado..."
-                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none"
+                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#333d73] focus:border-transparent transition resize-none"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={!isValid}
-                  className="w-full flex items-center justify-center gap-2 bg-blue-700 hover:bg-blue-800 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold px-6 py-4 rounded-xl transition-colors duration-200"
+                  className="w-full flex items-center justify-center gap-2 bg-[#1a1a1a] hover:bg-[#b70000] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold px-6 py-4 transition-colors duration-200"
                 >
                   <Send size={18} />
                   Enviar por WhatsApp

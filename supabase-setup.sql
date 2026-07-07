@@ -25,20 +25,6 @@ create policy "Admin insert" on projects
 create policy "Admin delete" on projects
   for delete using (true);
 
--- 5. Crear el bucket de imágenes (ejecutar en Storage > New bucket)
--- Nombre: project-images
--- Public: true
-
--- 6. Política de storage para subir imágenes
-insert into storage.buckets (id, name, public)
-values ('project-images', 'project-images', true)
-on conflict do nothing;
-
-create policy "Public read images" on storage.objects
-  for select using (bucket_id = 'project-images');
-
-create policy "Anyone can upload images" on storage.objects
-  for insert with check (bucket_id = 'project-images');
-
-create policy "Anyone can delete images" on storage.objects
-  for delete using (bucket_id = 'project-images');
+-- Nota: las fotos de proyectos ya NO se guardan en Supabase Storage.
+-- Se suben a Cloudflare R2 (ver src/lib/r2.ts y /api/upload).
+-- Supabase acá solo guarda: la tabla "projects" (metadata) y el login del admin.

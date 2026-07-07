@@ -2,7 +2,14 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1a1a1a;
+
+  /* Mobaz brand palette */
+  --mobaz-black: #1a1a1a;
+  --mobaz-red: #b70000;
+  --mobaz-navy: #333d73;
+  --mobaz-gray: #e6e6e6;
+  --mobaz-white: #ffffff;
 }
 
 html {
@@ -12,5 +19,9 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-overpass), Arial, Helvetica, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-albert-sans), Arial, Helvetica, sans-serif;
 }

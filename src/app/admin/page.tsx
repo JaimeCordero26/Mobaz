@@ -48,7 +48,7 @@ function AuthShell({ children }: { children: React.ReactNode }) {
             className="h-16 w-auto mx-auto mb-4 object-contain"
             onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
           />
-          <h1 className="text-2xl font-bold text-white">SC Servicios Constructivos</h1>
+          <h1 className="text-2xl font-bold text-white">Mobaz</h1>
           <p className="text-white/50 text-sm mt-1">Panel de administración</p>
         </div>
         {children}
@@ -416,16 +416,15 @@ export default function AdminPage() {
   }
 
   async function uploadNewImages(): Promise<string[]> {
-    const client = getClient();
-    if (!client || pendingFiles.length === 0) return [];
+    if (pendingFiles.length === 0) return [];
     const urls: string[] = [];
     for (const file of pendingFiles) {
-      const ext = file.name.split(".").pop();
-      const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-      const { error } = await client.storage.from("project-images").upload(filename, file, { cacheControl: "3600", upsert: false });
-      if (!error) {
-        const { data } = client.storage.from("project-images").getPublicUrl(filename);
-        urls.push(data.publicUrl);
+      const body = new FormData();
+      body.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body });
+      if (res.ok) {
+        const { url } = await res.json();
+        urls.push(url);
       }
     }
     return urls;
@@ -487,7 +486,7 @@ export default function AdminPage() {
             <img src="/api/logo" alt="Logo" className="h-9 w-auto object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
             <div>
               <span className="font-bold text-gray-900 text-sm">Panel Admin</span>
-              <span className="hidden sm:inline text-gray-400 text-xs ml-2">SC Servicios Constructivos</span>
+              <span className="hidden sm:inline text-gray-400 text-xs ml-2">Mobaz</span>
             </div>
           </div>
           <div className="flex items-center gap-2">

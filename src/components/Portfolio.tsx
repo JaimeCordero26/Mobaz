@@ -37,10 +37,10 @@ const demoProjects: Project[] = [
 const categories = ["Todos", "Residencial", "Comercial", "Apartamentos", "Remodelación"];
 
 const categoryColors: Record<string, string> = {
-  Residencial: "bg-blue-100 text-blue-700",
-  Comercial: "bg-green-100 text-green-700",
-  Apartamentos: "bg-purple-100 text-purple-700",
-  Remodelación: "bg-orange-100 text-orange-700",
+  Residencial: "bg-[#333d73] text-white",
+  Comercial: "bg-[#b70000] text-white",
+  Apartamentos: "bg-[#1a1a1a] text-white",
+  Remodelación: "bg-[#1a1a1a]/70 text-white",
 };
 
 // ── Hook: swipe táctil ────────────────────────────────────────────────────────
@@ -115,7 +115,7 @@ function ProjectCard({
     >
       {/* Image area */}
       <div
-        className="relative h-56 sm:h-60 bg-gradient-to-br from-blue-100 to-green-100 overflow-hidden"
+        className="relative h-56 sm:h-60 bg-[#e6e6e6] overflow-hidden"
         {...(images.length > 1 ? swipe : {})}
       >
         {images.length > 0 ? (
@@ -188,7 +188,7 @@ function ProjectCard({
 
       {/* Info */}
       <div className="p-5">
-        <h3 className="font-bold text-gray-900 text-lg mb-1 group-hover:text-blue-700 transition-colors duration-200">
+        <h3 className="font-bold text-gray-900 text-lg mb-1 group-hover:text-[#b70000] transition-colors duration-200">
           {project.name}
         </h3>
         <div className="flex items-center gap-1 text-gray-400 text-sm mb-2">
@@ -196,7 +196,7 @@ function ProjectCard({
           <span>{project.location}</span>
         </div>
         <p className="text-gray-500 text-sm line-clamp-2">{project.description}</p>
-        <div className="mt-3 text-xs text-blue-600 font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <div className="mt-3 text-xs text-[#b70000] font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200">
           Ver detalles →
         </div>
       </div>
@@ -276,7 +276,7 @@ export default function Portfolio() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <span className="text-green-600 font-semibold text-sm uppercase tracking-widest">
+          <span className="text-[#b70000] font-semibold text-sm uppercase tracking-widest">
             Nuestro trabajo
           </span>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
@@ -295,7 +295,7 @@ export default function Portfolio() {
               onClick={() => setActiveCategory(cat)}
               className={`px-5 py-2 rounded-full font-medium text-sm transition-all duration-200 ${
                 activeCategory === cat
-                  ? "bg-blue-700 text-white shadow-md"
+                  ? "bg-[#1a1a1a] text-white shadow-md"
                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               }`}
             >
@@ -401,7 +401,7 @@ export default function Portfolio() {
                     key={i}
                     onClick={() => setImageIndex(i)}
                     className={`flex-shrink-0 w-14 h-14 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
-                      i === imageIndex ? "border-blue-600 opacity-100" : "border-transparent opacity-50 hover:opacity-80"
+                      i === imageIndex ? "border-[#b70000] opacity-100" : "border-transparent opacity-50 hover:opacity-80"
                     }`}
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -429,7 +429,7 @@ export default function Portfolio() {
               <a
                 href="#contacto"
                 onClick={closeModal}
-                className="mt-5 inline-block bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-full transition-colors text-sm"
+                className="mt-5 inline-block bg-[#b70000] hover:bg-[#960000] text-white font-semibold px-6 py-3 transition-colors text-sm"
               >
                 Cotizar proyecto similar
               </a>

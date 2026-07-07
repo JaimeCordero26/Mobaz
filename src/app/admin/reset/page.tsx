@@ -54,7 +54,7 @@ export default function ResetPasswordPage() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/api/logo" alt="Logo" className="h-14 w-auto mx-auto mb-4 object-contain"
             onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
-          <h1 className="text-2xl font-bold text-white">SC Servicios Constructivos</h1>
+          <h1 className="text-2xl font-bold text-white">Mobaz</h1>
         </div>
 
         <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 shadow-2xl">
