@@ -15,8 +15,10 @@ export default function Navbar() {
 
   const links = [
     { href: "#inicio", label: "Inicio" },
+    { href: "#nosotros", label: "Nosotros" },
     { href: "#servicios", label: "Servicios" },
     { href: "#portafolio", label: "Portafolio" },
+    { href: "#equipo", label: "Equipo" },
     { href: "#contacto", label: "Contacto" },
   ];
 
@@ -39,7 +41,7 @@ export default function Navbar() {
           </a>
 
           {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-6">
             {links.map((link) => (
               <a
                 key={link.href}
@@ -59,7 +61,7 @@ export default function Navbar() {
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden p-1 text-[#1a1a1a]"
+            className="lg:hidden p-1 text-[#1a1a1a]"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Menú"
           >
@@ -70,7 +72,7 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {isOpen && (
-        <div className="md:hidden bg-white shadow-xl border-t border-gray-100">
+        <div className="lg:hidden bg-white shadow-xl border-t border-gray-100">
           <div className="px-4 py-5 space-y-3">
             {links.map((link) => (
               <a

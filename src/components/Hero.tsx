@@ -21,11 +21,20 @@ export default function Hero() {
           </div>
 
           {/* Headline */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-4">
             <span className="block text-[#1a1a1a]">Construcción</span>
-            <span className="block text-[#b70000]">+</span>
-            <span className="block text-[#333d73]">Arquitectura</span>
+            <span className="block text-[#333d73]">
+              <span className="text-[#b70000]">+</span> Arquitectura
+            </span>
+            <span className="block text-[#1a1a1a]">
+              <span className="text-[#b70000]">+</span> Ingeniería
+            </span>
           </h1>
+
+          {/* Slogan */}
+          <p className="text-lg sm:text-xl font-semibold text-[#b70000] italic mb-4">
+            Su constructora amiga
+          </p>
 
           {/* Subtitle */}
           <p className="text-base sm:text-lg md:text-xl text-[#1a1a1a]/60 max-w-2xl mx-auto mb-10 leading-relaxed">
