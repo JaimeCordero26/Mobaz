@@ -5,6 +5,9 @@ import {
   PaintBucket,
   HardHat,
   Wrench,
+  PenTool,
+  Map,
+  Factory,
 } from "lucide-react";
 import BuildingSkyline from "./BuildingSkyline";
 
@@ -44,6 +47,24 @@ const services = [
     title: "Mantenimiento y Arreglos",
     description:
       "Reparaciones estructurales, impermeabilización, instalaciones eléctricas e hidráulicas.",
+  },
+  {
+    icon: PenTool,
+    title: "Diseño Civil y Arquitectónico",
+    description:
+      "Diseño eléctrico, mecánico y arquitectónico, diseño interior y exterior, con presupuestos de obra detallados.",
+  },
+  {
+    icon: Map,
+    title: "Planos y Topografía",
+    description:
+      "Servicios topográficos, planos de construcción y visado de planos ante los entes correspondientes.",
+  },
+  {
+    icon: Factory,
+    title: "Proyectos Urbanísticos e Industriales",
+    description:
+      "Construcción y supervisión de proyectos de mediana escala: urbanísticos, industriales y de infraestructura.",
   },
 ];
 
