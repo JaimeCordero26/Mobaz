@@ -66,7 +66,7 @@ export default function Contact() {
             Contáctanos
           </h2>
           <p className="text-gray-500 text-lg max-w-2xl mx-auto">
-            ¿Tenés un proyecto en mente? Escríbenos y te damos una cotización gratuita sin compromiso.
+            ¿Tenés un proyecto en mente? Escribínos y te damos una cotización gratuita sin compromiso.
           </p>
         </div>
 
