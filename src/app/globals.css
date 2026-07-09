@@ -25,3 +25,12 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-albert-sans), Arial, Helvetica, sans-serif;
 }
+
+@keyframes float-particle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-16px); }
+}
+
+.animate-float-particle {
+  animation: float-particle ease-in-out infinite;
+}

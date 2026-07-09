@@ -1,6 +1,6 @@
-# SC Servicios Constructivos — Sitio Web Corporativo
+# Mobaz — Sitio Web Corporativo
 
-Landing page profesional con portafolio de proyectos y panel de administración para **SC Servicios Constructivos**, empresa constructora con más de 23 años de experiencia en Costa Rica.
+Landing page y panel de administración para **Mobaz**, constructora familiar con sede en Guanacaste, Costa Rica (grupo Mobaz-Inge, fundada en 2014).
 
 ---
 
@@ -10,169 +10,104 @@ Landing page profesional con portafolio de proyectos y panel de administración 
 |---|---|
 | Framework | [Next.js 16](https://nextjs.org/) (App Router) |
 | Estilos | [Tailwind CSS v4](https://tailwindcss.com/) |
-| Base de datos | [Supabase](https://supabase.com/) (PostgreSQL) |
-| Almacenamiento | Supabase Storage |
+| Hosting | [Cloudflare Workers](https://developers.cloudflare.com/workers/) vía [OpenNext](https://opennext.js.org/cloudflare) |
+| Auth + DB | [Supabase](https://supabase.com/) (PostgreSQL, solo login admin + metadata de proyectos) |
+| Fotos de proyectos | [Cloudflare R2](https://developers.cloudflare.com/r2/) |
+| Rate limiting | Cloudflare Rate Limiting API (login) |
 | Iconos | [Lucide React](https://lucide.dev/) |
-| Deploy | [Vercel](https://vercel.com/) (recomendado) |
 
 ---
 
 ## Estructura del proyecto
 
 ```
-sc-constructivos/
 ├── public/
-│   └── logo/              ← Colocar el logo aquí (cualquier formato)
+│   ├── logo/               ← Logo del sitio (cualquier formato, se sirve como asset estático)
+│   ├── brand/               ← Variante blanca del logo (footer/fondos oscuros)
+│   ├── icons/               ← Íconos decorativos (partículas del Hero)
+│   └── team/                ← Fotos del equipo
 ├── src/
 │   ├── app/
-│   │   ├── admin/
-│   │   │   └── page.tsx   ← Panel de administración
+│   │   ├── admin/            ← Panel de administración (login + CRUD de proyectos)
 │   │   ├── api/
-│   │   │   └── logo/
-│   │   │       └── route.ts ← Sirve el logo dinámicamente
+│   │   │   ├── login/         ← Proxy a Supabase Auth con rate limiting
+│   │   │   └── upload/        ← Sube fotos a R2 (requiere sesión válida)
 │   │   ├── globals.css
 │   │   ├── layout.tsx
-│   │   └── page.tsx       ← Landing page principal
+│   │   └── page.tsx
 │   ├── components/
-│   │   ├── Navbar.tsx     ← Navegación fija con logo
-│   │   ├── Hero.tsx       ← Sección principal (hero)
-│   │   ├── Services.tsx   ← Sección de servicios
-│   │   ├── Portfolio.tsx  ← Portafolio con carrusel
-│   │   ├── Contact.tsx    ← Formulario de contacto (WhatsApp)
-│   │   └── Footer.tsx
+│   │   ├── Navbar.tsx
+│   │   ├── Hero.tsx
+│   │   ├── About.tsx          ← Acerca de nosotros (misión/visión/valores)
+│   │   ├── Team.tsx           ← Conozca a nuestros profesionales
+│   │   ├── Services.tsx
+│   │   ├── Portfolio.tsx      ← Portafolio filtrable con carrusel
+│   │   ├── Contact.tsx        ← Formulario WhatsApp (elige a quién enviar)
+│   │   ├── Footer.tsx
+│   │   ├── BuildingSkyline.tsx    ← Decoración SVG de fondo
+│   │   └── ParticleBackground.tsx ← Partículas animadas del Hero
 │   └── lib/
-│       └── supabase.ts    ← Cliente de Supabase
-├── supabase-setup.sql     ← Script para configurar la base de datos
-└── .env.local             ← Variables de entorno (NO subir a git)
+│       ├── supabase.ts
+│       └── r2.ts
+├── supabase-setup.sql        ← Tabla `projects` + RLS
+├── supabase-auth-setup.sql   ← Tabla `admin_settings` + políticas con auth
+├── wrangler.jsonc            ← Config del Worker (bindings R2, rate limiter, vars públicas)
+└── .github/workflows/keep-alive.yml ← Ping a Supabase c/3 días (evita que se pause)
 ```
 
 ---
 
-## Configuración inicial
+## Variables de entorno
 
-### 1. Clonar el repositorio
-
-```bash
-git clone <url-del-repo>
-cd sc-constructivos
-npm install
-```
-
-### 2. Variables de entorno
-
-Crear el archivo `.env.local` en la raíz del proyecto:
+Ver `.env.example`. Local: crear `.env.local` con:
 
 ```env
-NEXT_PUBLIC_SUPABASE_URL=https://xxxxxxxxxxxx.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=tu-anon-key-aqui
-NEXT_PUBLIC_ADMIN_PASSWORD=tu-contraseña-segura
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+R2_ACCOUNT_ID=
+R2_ACCESS_KEY_ID=
+R2_SECRET_ACCESS_KEY=
+R2_BUCKET_NAME=
+R2_PUBLIC_URL=
 ```
 
-> **Importante:** El archivo `.env.local` está en `.gitignore` — nunca subir credenciales al repositorio.
+En producción (Cloudflare): `R2_ACCOUNT_ID`, `R2_BUCKET_NAME`, `R2_PUBLIC_URL` y las de Supabase ya están commiteadas en `wrangler.jsonc` (son públicas/no sensibles). `R2_ACCESS_KEY_ID` y `R2_SECRET_ACCESS_KEY` van como **Secret** en el dashboard del Worker (Settings → Variables and secrets) — no persisten si se agregan como Plaintext sin estar en el archivo. Además, `NEXT_PUBLIC_SUPABASE_URL`/`ANON_KEY` deben estar también en **Settings → Build → Variables and secrets**, ya que ahí es donde se inyectan al `next build`.
 
-### 3. Configurar Supabase
+---
 
-1. Crear proyecto en [supabase.com](https://supabase.com)
-2. Ir a **SQL Editor** y ejecutar el contenido de `supabase-setup.sql`
-3. Esto crea:
-   - Tabla `projects` con RLS habilitado
-   - Políticas de seguridad para lectura pública y escritura desde el admin
-   - Bucket `project-images` para almacenamiento de fotos
-
-### 4. Logo de la empresa
-
-Colocar el archivo del logo dentro de `public/logo/`:
-
-```
-public/logo/logo.png   ← (o .svg, .jpg, .webp — cualquier formato)
-```
-
-El sitio lo detecta automáticamente. Si no hay logo, muestra el nombre en texto.
-
-### 5. Correr en desarrollo
+## Correr en desarrollo
 
 ```bash
+npm install
 npm run dev
 ```
 
-- **Landing page:** http://localhost:3000
-- **Panel admin:** http://localhost:3000/admin
+- Landing: http://localhost:3000
+- Panel admin: http://localhost:3000/admin
+
+## Deploy
+
+Conectado a Cloudflare Workers Builds (git push a `main` dispara build + deploy automático). Build command: `npm run build`. Deploy command: `npm run deploy` (corre `opennextjs-cloudflare build && opennextjs-cloudflare deploy`).
 
 ---
 
 ## Panel de Administración
 
-Accesible en `/admin`. Permite:
-
-- **Crear proyectos** con nombre, ubicación, categoría, descripción y múltiples fotos
-- **Editar proyectos** existentes — modificar datos y agregar/quitar fotos individualmente
-- **Eliminar proyectos**
-- **Previsualizar fotos** en carrusel directamente desde el panel
-- Ver estadísticas rápidas por categoría
-
-La contraseña se configura en `.env.local` con `NEXT_PUBLIC_ADMIN_PASSWORD`.
+Accesible en `/admin`, login con Supabase Auth (email + contraseña). Permite crear/editar/eliminar proyectos con fotos (subidas a R2), con estadísticas rápidas por categoría.
 
 ---
 
-## Secciones de la landing page
+## Cambiar contactos de WhatsApp
 
-| Sección | Descripción |
-|---|---|
-| **Hero** | Presentación principal con gradiente azul-verde, estadísticas y CTAs |
-| **Servicios** | 6 tarjetas: Casas, Edificios, Remodelaciones, Acabados, Comercial, Mantenimiento |
-| **Portafolio** | Grid filtrable por categoría. Cada tarjeta tiene carrusel de fotos con auto-avance al hacer hover. Modal con thumbnails al hacer clic |
-| **Contacto** | Formulario que abre WhatsApp con el mensaje prellenado. Botón directo de WhatsApp |
-| **Footer** | Links, teléfono y WhatsApp directo |
-
----
-
-## Deploy en Vercel
-
-```bash
-# 1. Instalar Vercel CLI (si no lo tenés)
-npm i -g vercel
-
-# 2. Deploy
-vercel
-
-# 3. Configurar variables de entorno en el dashboard de Vercel:
-#    NEXT_PUBLIC_SUPABASE_URL
-#    NEXT_PUBLIC_SUPABASE_ANON_KEY
-#    NEXT_PUBLIC_ADMIN_PASSWORD
-```
-
-O conectar el repositorio directamente desde vercel.com para deploy automático en cada push a `main`.
-
----
-
-## Agregar nuevas categorías de proyectos
-
-Editar el array `categories` en dos archivos:
-
-**`src/components/Portfolio.tsx`**
-```ts
-const categories = ["Todos", "Residencial", "Comercial", "Apartamentos", "Remodelación", "Nueva Categoría"];
-```
-
-**`src/app/admin/page.tsx`**
-```ts
-const categories = ["Residencial", "Comercial", "Apartamentos", "Remodelación", "Nueva Categoría"];
-```
-
----
-
-## Cambiar número de WhatsApp
-
-En `src/components/Contact.tsx`, línea 6:
+En `src/components/Contact.tsx` y `src/components/Footer.tsx`, array `CONTACTS`:
 
 ```ts
-const WHATSAPP_NUMBER = "506XXXXXXXX"; // Formato: código de país + número sin guiones
+const CONTACTS = [
+  { name: "Jason Mora", phone: "83276566" },
+  { name: "Bryan Mora", phone: "83425820" },
+];
 ```
 
----
+## Agregar categorías de proyectos
 
-## Contacto del proyecto
-
-- **Empresa:** SC Servicios Constructivos
-- **Teléfono:** 8803-5690
-- **País:** Costa Rica
+Editar el array `categories` en `src/components/Portfolio.tsx` y `src/app/admin/page.tsx`.
