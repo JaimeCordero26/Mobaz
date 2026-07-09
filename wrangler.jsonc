@@ -30,10 +30,10 @@
   },
   "ratelimits": [
     {
-      "name": "UPLOAD_RATE_LIMITER",
+      "name": "LOGIN_RATE_LIMITER",
       "namespace_id": "1001",
       "simple": {
-        "limit": 10,
+        "limit": 5,
         "period": 60
       }
     }

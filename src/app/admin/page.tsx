@@ -163,13 +163,21 @@ function LoginScreen({ onLogin, onForgot, onReset }: { onLogin: () => void; onFo
     const client = getClient();
     if (!client) { setError("Error de configuración."); setLoading(false); return; }
 
-    const { error: authError } = await client.auth.signInWithPassword({ email, password });
-    if (authError) {
+    const res = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = (await res.json()) as { access_token?: string; refresh_token?: string; error?: string };
+
+    if (!res.ok || !data.access_token || !data.refresh_token) {
       setFailCount((n) => n + 1);
-      setError("Correo o contraseña incorrectos.");
+      setError(res.status === 429 ? data.error! : "Correo o contraseña incorrectos.");
       setLoading(false);
       return;
     }
+
+    await client.auth.setSession({ access_token: data.access_token, refresh_token: data.refresh_token });
     onLogin();
   }
 
@@ -417,15 +425,25 @@ export default function AdminPage() {
 
   async function uploadNewImages(): Promise<string[]> {
     if (pendingFiles.length === 0) return [];
+    const client = getClient();
+    const { data: { session } } = (await client?.auth.getSession()) ?? { data: { session: null } };
+    if (!session) throw new Error("Tu sesión expiró. Iniciá sesión de nuevo.");
+
     const urls: string[] = [];
     for (const file of pendingFiles) {
       const body = new FormData();
       body.append("file", file);
-      const res = await fetch("/api/upload", { method: "POST", body });
-      if (res.ok) {
-        const { url } = (await res.json()) as { url: string };
-        urls.push(url);
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${session.access_token}` },
+        body,
+      });
+      if (!res.ok) {
+        const { error } = (await res.json()) as { error?: string };
+        throw new Error(error || `Error subiendo ${file.name}.`);
       }
+      const { url } = (await res.json()) as { url: string };
+      urls.push(url);
     }
     return urls;
   }
@@ -445,6 +463,8 @@ export default function AdminPage() {
       }
       closeForm();
       await loadProjects();
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Ocurrió un error subiendo las fotos.");
     } finally {
       setUploading(false);
     }

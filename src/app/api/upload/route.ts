@@ -1,21 +1,21 @@
 import { NextResponse } from "next/server";
-import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { uploadToR2 } from "@/lib/r2";
 
-export async function POST(req: Request) {
-  const ip = req.headers.get("cf-connecting-ip") || req.headers.get("x-forwarded-for") || "unknown";
+async function isAuthenticated(req: Request): Promise<boolean> {
+  const token = req.headers.get("authorization")?.replace(/^Bearer\s+/i, "");
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!token || !url || !anonKey) return false;
 
-  try {
-    const { env } = await getCloudflareContext({ async: true });
-    const { success } = await env.UPLOAD_RATE_LIMITER.limit({ key: ip });
-    if (!success) {
-      return NextResponse.json(
-        { error: "Demasiadas subidas. Esperá un minuto e intentá de nuevo." },
-        { status: 429 }
-      );
-    }
-  } catch (e) {
-    console.error("rate limiter unavailable:", e);
+  const res = await fetch(`${url}/auth/v1/user`, {
+    headers: { apikey: anonKey, Authorization: `Bearer ${token}` },
+  });
+  return res.ok;
+}
+
+export async function POST(req: Request) {
+  if (!(await isAuthenticated(req))) {
+    return NextResponse.json({ error: "No autorizado." }, { status: 401 });
   }
 
   const formData = await req.formData();
