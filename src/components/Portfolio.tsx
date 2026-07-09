@@ -75,23 +75,12 @@ function ProjectCard({
 }) {
   const [idx, setIdx] = useState(0);
   const [hovered, setHovered] = useState(false);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const images = project.images || [];
 
   const goNext = useCallback(() => setIdx((i) => (i + 1) % images.length), [images.length]);
   const goPrev = useCallback(() => setIdx((i) => (i - 1 + images.length) % images.length), [images.length]);
 
   const swipe = useSwipe(goNext, goPrev);
-
-  // Auto-advance mientras hay hover (solo desktop)
-  useEffect(() => {
-    if (hovered && images.length > 1) {
-      intervalRef.current = setInterval(goNext, 1800);
-    } else {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    }
-    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
-  }, [hovered, images.length, goNext]);
 
   function prev(e: React.MouseEvent) {
     e.stopPropagation();
