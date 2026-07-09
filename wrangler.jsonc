@@ -28,6 +28,16 @@
   "observability": {
     "enabled": true
   },
+  "ratelimits": [
+    {
+      "name": "UPLOAD_RATE_LIMITER",
+      "namespace_id": "1001",
+      "simple": {
+        "limit": 10,
+        "period": 60
+      }
+    }
+  ],
   "vars": {
     "R2_ACCOUNT_ID": "276cbfe7012e46fba9b706c0dd1bdd7f",
     "R2_BUCKET_NAME": "mobaz-portfolio",

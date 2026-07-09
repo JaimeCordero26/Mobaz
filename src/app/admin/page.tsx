@@ -423,7 +423,7 @@ export default function AdminPage() {
       body.append("file", file);
       const res = await fetch("/api/upload", { method: "POST", body });
       if (res.ok) {
-        const { url } = await res.json();
+        const { url } = (await res.json()) as { url: string };
         urls.push(url);
       }
     }
