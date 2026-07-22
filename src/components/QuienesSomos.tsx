@@ -1,5 +1,8 @@
-import { Eye, Target, HeartHandshake } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+"use client";
+
+import { useState } from "react";
+import { Eye, Target, HeartHandshake, ChevronDown } from "lucide-react";
+import { useTranslations } from "next-intl";
 import BuildingSkyline from "./BuildingSkyline";
 
 const TEAM: {
@@ -17,8 +20,9 @@ const TEAM: {
   { name: "Douglas Melgara", role: "roleDirector", profession: "profCivilEngineer", code: "", photo: "/team/douglas.png", zoom: true },
 ];
 
-export default async function QuienesSomos() {
-  const t = await getTranslations("QuienesSomos");
+export default function QuienesSomos() {
+  const t = useTranslations("QuienesSomos");
+  const [open, setOpen] = useState<number | null>(null);
 
   const pillars = [
     { icon: Target, title: t("misionTitle"), text: t("misionText") },
@@ -30,33 +34,51 @@ export default async function QuienesSomos() {
     <section id="quienes-somos" className="relative overflow-hidden py-24 bg-[#e6e6e6]">
       <BuildingSkyline className="absolute -bottom-6 -right-16 w-[420px] h-[210px] text-[#1a1a1a]/[0.06] pointer-events-none hidden md:block" />
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-16">
+        {/* Header + Misión/Visión/Valores combinados */}
+        <div className="max-w-3xl mx-auto text-center mb-24">
           <span className="text-[#b70000] font-semibold text-sm uppercase tracking-widest">
             {t("label")}
           </span>
           <h2 className="text-4xl md:text-5xl font-bold text-[#1a1a1a] mt-2 mb-4">
             {t("title")}
           </h2>
-          <p className="text-[#1a1a1a]/60 text-lg max-w-3xl mx-auto leading-relaxed">
+          <p className="text-[#1a1a1a]/60 text-lg leading-relaxed mb-8">
             {t("intro")}
           </p>
-        </div>
 
-        {/* Misión / Visión / Valores */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-24">
-          {pillars.map((p) => {
-            const Icon = p.icon;
-            return (
-              <div key={p.title} className="bg-white p-8 border border-[#e6e6e6]">
-                <div className="w-14 h-14 bg-[#1a1a1a] flex items-center justify-center mb-5">
-                  <Icon size={26} className="text-white" />
+          {/* Misión / Visión / Valores — tabs desplegables, texto opcional */}
+          <div className="text-left border border-[#e6e6e6] bg-white divide-y divide-[#e6e6e6]">
+            {pillars.map((p, i) => {
+              const Icon = p.icon;
+              const isOpen = open === i;
+              return (
+                <div key={p.title}>
+                  <button
+                    type="button"
+                    onClick={() => setOpen(isOpen ? null : i)}
+                    aria-expanded={isOpen}
+                    className="w-full flex items-center gap-3 px-5 py-4 text-left"
+                  >
+                    <Icon size={18} className="text-[#b70000] flex-shrink-0" />
+                    <span className="flex-1 font-bold text-[#1a1a1a]">{p.title}</span>
+                    <ChevronDown
+                      size={18}
+                      className={`text-[#1a1a1a]/40 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                    />
+                  </button>
+                  <div
+                    className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+                  >
+                    <div className="overflow-hidden">
+                      <p className="px-5 pb-4 text-[#1a1a1a]/60 leading-relaxed text-sm">
+                        {p.text}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold text-[#1a1a1a] mb-3">{p.title}</h3>
-                <p className="text-[#1a1a1a]/60 leading-relaxed">{p.text}</p>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
         {/* Equipo */}
