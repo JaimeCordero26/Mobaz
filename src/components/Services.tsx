@@ -1,70 +1,24 @@
-import {
-  Home,
-  Building2,
-  Hammer,
-  PaintBucket,
-  HardHat,
-  Wrench,
-  PenTool,
-  Map,
-  Factory,
-} from "lucide-react";
+import { PenTool, HardHat, ClipboardList } from "lucide-react";
 import BuildingSkyline from "./BuildingSkyline";
 
-const services = [
+const pillars = [
   {
-    icon: Home,
-    title: "Casas Residenciales",
-    description:
-      "Construimos la casa de tus sueños desde cero, con los mejores materiales y acabados de alta calidad.",
-  },
-  {
-    icon: Building2,
-    title: "Edificios y Apartamentos",
-    description:
-      "Proyectos de gran escala: edificios de oficinas, condominios y complejos de apartamentos.",
-  },
-  {
-    icon: Hammer,
-    title: "Remodelaciones",
-    description:
-      "Transformamos tu espacio existente. Remodelamos cocinas, baños, fachadas y espacios completos.",
-  },
-  {
-    icon: PaintBucket,
-    title: "Acabados y Pintura",
-    description:
-      "Acabados de lujo, cerámica, cielos rasos, repello, pintura interior y exterior de calidad.",
+    icon: PenTool,
+    title: "Diseño",
+    description: "Planos y especialidades técnicas listas para construir o tramitar.",
+    items: ["Civil", "Eléctrico", "Mecánico", "Arquitectónico", "Topográfico"],
   },
   {
     icon: HardHat,
-    title: "Construcción Comercial",
-    description:
-      "Locales comerciales, bodegas, instalaciones industriales y proyectos de infraestructura.",
+    title: "Construcción",
+    description: "Ejecución de obra con la calidad y el acompañamiento de siempre.",
+    items: ["Residencial", "Comercial", "Urbanístico", "Remodelaciones"],
   },
   {
-    icon: Wrench,
-    title: "Mantenimiento y Arreglos",
-    description:
-      "Reparaciones estructurales, impermeabilización, instalaciones eléctricas e hidráulicas.",
-  },
-  {
-    icon: PenTool,
-    title: "Diseño Civil y Arquitectónico",
-    description:
-      "Diseño eléctrico, mecánico y arquitectónico, diseño interior y exterior, con presupuestos de obra detallados.",
-  },
-  {
-    icon: Map,
-    title: "Planos y Topografía",
-    description:
-      "Servicios topográficos, planos de construcción y visado de planos ante los entes correspondientes.",
-  },
-  {
-    icon: Factory,
-    title: "Proyectos Urbanísticos e Industriales",
-    description:
-      "Construcción y supervisión de proyectos de mediana escala: urbanísticos, industriales y de infraestructura.",
+    icon: ClipboardList,
+    title: "Administración",
+    description: "Manejo integral del proyecto de principio a fin.",
+    items: ["Presupuestos", "Inspecciones privadas", "Administración de proyectos", "Tramitología"],
   },
 ];
 
@@ -82,27 +36,35 @@ export default function Services() {
             Nuestros Servicios
           </h2>
           <p className="text-[#1a1a1a]/60 text-lg max-w-2xl mx-auto">
-            Ofrecemos soluciones integrales de construcción para proyectos
-            residenciales, comerciales y de remodelación.
+            Tres servicios independientes: diseño, construcción y administración.
+            Elegí uno, dos o los tres — vos decidís qué necesitás de nosotros.
           </p>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((service) => {
-            const Icon = service.icon;
+        {/* Pilares */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {pillars.map((pillar) => {
+            const Icon = pillar.icon;
             return (
               <div
-                key={service.title}
-                className="bg-white p-8 border border-[#e6e6e6] hover:border-[#b70000] transition-colors duration-300 group"
+                key={pillar.title}
+                className="bg-white p-8 border border-[#e6e6e6] hover:border-[#b70000] transition-colors duration-300 group flex flex-col"
               >
                 <div className="w-14 h-14 bg-[#1a1a1a] group-hover:bg-[#b70000] flex items-center justify-center mb-5 transition-colors duration-300">
                   <Icon size={26} className="text-white" />
                 </div>
-                <h3 className="text-xl font-bold text-[#1a1a1a] mb-3">
-                  {service.title}
+                <h3 className="text-2xl font-bold text-[#1a1a1a] mb-2">
+                  {pillar.title}
                 </h3>
-                <p className="text-[#1a1a1a]/60 leading-relaxed">{service.description}</p>
+                <p className="text-[#1a1a1a]/60 leading-relaxed mb-6">{pillar.description}</p>
+                <ul className="space-y-2.5 mt-auto pt-6 border-t border-[#e6e6e6]">
+                  {pillar.items.map((item) => (
+                    <li key={item} className="flex items-center gap-2.5 text-sm text-[#1a1a1a]/80">
+                      <span className="w-1.5 h-1.5 bg-[#b70000] flex-shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
             );
           })}
