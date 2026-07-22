@@ -39,7 +39,7 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-18 py-2">
+        <div className="flex items-center justify-between h-18">
           {/* Logo */}
           <a href="#inicio" className="flex items-center flex-shrink-0 min-w-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -51,23 +51,27 @@ export default function Navbar() {
           </a>
 
           {/* Desktop links */}
-          <div className="hidden lg:flex items-center gap-6">
-            {links.map((link) => (
+          <div className="hidden lg:flex items-center gap-8">
+            <div className="flex items-center gap-6">
+              {links.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="font-medium text-sm text-[#1a1a1a] hover:text-[#b70000] transition-colors duration-200"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+            <div className="flex items-center gap-4 pl-6 border-l border-[#e6e6e6]">
+              <LanguageSwitcher className="text-[#1a1a1a]" />
               <a
-                key={link.href}
-                href={link.href}
-                className="font-medium text-sm text-[#1a1a1a] hover:text-[#b70000] transition-colors duration-200"
+                href="#contacto"
+                className="bg-[#b70000] hover:bg-[#960000] text-white px-5 py-2.5 font-semibold transition-colors duration-200 text-sm whitespace-nowrap"
               >
-                {link.label}
+                {t("cotizar")}
               </a>
-            ))}
-            <LanguageSwitcher className="text-[#1a1a1a] hover:text-[#b70000] transition-colors duration-200" />
-            <a
-              href="#contacto"
-              className="bg-[#b70000] hover:bg-[#960000] text-white px-5 py-2.5 font-semibold transition-colors duration-200 text-sm"
-            >
-              {t("cotizar")}
-            </a>
+            </div>
           </div>
 
           {/* Mobile menu button */}
@@ -109,11 +113,11 @@ export default function Navbar() {
               </a>
             ))}
           </div>
-          <div className="flex items-center justify-between mt-6">
-            <LanguageSwitcher className="text-[#1a1a1a]" />
+          <div className="flex flex-col gap-3 mt-6 pt-6 border-t border-gray-100">
+            <LanguageSwitcher className="text-[#1a1a1a] w-full justify-center" />
             <a
               href="#contacto"
-              className="flex-1 ml-4 block bg-[#b70000] hover:bg-[#960000] text-white px-5 py-3 font-semibold text-center transition-colors"
+              className="block bg-[#b70000] hover:bg-[#960000] text-white px-5 py-3 font-semibold text-center transition-colors"
               onClick={() => setIsOpen(false)}
             >
               {t("cotizar")}
