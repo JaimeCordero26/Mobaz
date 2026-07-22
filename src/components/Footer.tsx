@@ -1,8 +1,14 @@
 import { MessageCircle } from "lucide-react";
+import { InstagramIcon, FacebookIcon } from "./SocialIcons";
 
 const CONTACTS = [
   { name: "Jason Mora", phone: "83276566" },
   { name: "Bryan Mora", phone: "83425820" },
+];
+
+const SOCIALS = [
+  { name: "Instagram", href: "https://instagram.com/mobazcr", Icon: InstagramIcon },
+  { name: "Facebook", href: "https://www.facebook.com/share/1DsmeCFA4v/?mibextid=wwXIfr", Icon: FacebookIcon },
 ];
 
 export default function Footer() {
@@ -16,9 +22,23 @@ export default function Footer() {
           <div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/brand/logo-white.png" alt="Mobaz" className="h-10 w-auto object-contain mb-4" />
-            <p className="text-gray-400 text-sm leading-relaxed">
+            <p className="text-gray-400 text-sm leading-relaxed mb-4">
               Construcción + Arquitectura. Tu proyecto es nuestra pasión.
             </p>
+            <div className="flex items-center gap-3">
+              {SOCIALS.map(({ name, href, Icon }) => (
+                <a
+                  key={name}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={name}
+                  className="w-9 h-9 flex items-center justify-center border border-white/15 text-gray-400 hover:text-white hover:border-[#b70000] transition-colors"
+                >
+                  <Icon size={17} />
+                </a>
+              ))}
+            </div>
           </div>
 
           {/* Links */}
