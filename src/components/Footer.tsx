@@ -1,4 +1,5 @@
 import { MessageCircle } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import { InstagramIcon, FacebookIcon } from "./SocialIcons";
 
 const CONTACTS = [
@@ -11,8 +12,18 @@ const SOCIALS = [
   { name: "Facebook", href: "https://www.facebook.com/share/1DsmeCFA4v/?mibextid=wwXIfr", Icon: FacebookIcon },
 ];
 
-export default function Footer() {
+export default async function Footer() {
+  const t = await getTranslations("Footer");
+  const tNav = await getTranslations("Nav");
   const currentYear = new Date().getFullYear();
+
+  const navLinks = [
+    { href: "#inicio", label: tNav("inicio") },
+    { href: "#quienes-somos", label: tNav("quienesSomos") },
+    { href: "#servicios", label: tNav("servicios") },
+    { href: "#portafolio", label: tNav("portafolio") },
+    { href: "#contacto", label: tNav("contacto") },
+  ];
 
   return (
     <footer className="bg-[#1a1a1a] text-white">
@@ -23,7 +34,7 @@ export default function Footer() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/brand/logo-white.png" alt="Mobaz" className="h-10 w-auto object-contain mb-4" />
             <p className="text-gray-400 text-sm leading-relaxed mb-4">
-              Construcción + Arquitectura. Tu proyecto es nuestra pasión.
+              {t("tagline")}
             </p>
             <div className="flex items-center gap-3">
               {SOCIALS.map(({ name, href, Icon }) => (
@@ -43,15 +54,9 @@ export default function Footer() {
 
           {/* Links */}
           <div>
-            <h4 className="font-semibold text-gray-200 mb-4">Navegación</h4>
+            <h4 className="font-semibold text-gray-200 mb-4">{t("navTitle")}</h4>
             <ul className="space-y-2">
-              {[
-                { href: "#inicio", label: "Inicio" },
-                { href: "#quienes-somos", label: "Quiénes Somos" },
-                { href: "#servicios", label: "Servicios" },
-                { href: "#portafolio", label: "Portafolio" },
-                { href: "#contacto", label: "Contacto" },
-              ].map((link) => (
+              {navLinks.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
@@ -66,7 +71,7 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="font-semibold text-gray-200 mb-4">Contacto directo</h4>
+            <h4 className="font-semibold text-gray-200 mb-4">{t("contactTitle")}</h4>
             <div className="space-y-3">
               {CONTACTS.map((contact) => (
                 <a
@@ -85,14 +90,14 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-white/10 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-gray-500 text-sm">
-          <span>© {currentYear} Mobaz. Todos los derechos reservados.</span>
+          <span>© {currentYear} Mobaz. {t("rights")}</span>
           <a
             href="https://sacortech.xyz"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-gray-500 hover:text-white transition-colors"
           >
-            Desarrollado por Sacortech<span className="align-super text-[10px] ml-0.5">™</span>
+            {t("developedBy")}<span className="align-super text-[10px] ml-0.5">™</span>
           </a>
         </div>
       </div>

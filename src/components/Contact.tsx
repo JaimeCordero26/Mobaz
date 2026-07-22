@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { MessageCircle, MapPin, Clock, Send } from "lucide-react";
 import BuildingSkyline from "./BuildingSkyline";
 
@@ -18,6 +19,7 @@ function formatPhone(phone: string) {
 }
 
 export default function Contact() {
+  const t = useTranslations("Contact");
   const [form, setForm] = useState({
     name: "",
     phone: "",
@@ -27,15 +29,7 @@ export default function Contact() {
     recipient: "",
   });
 
-  const services = [
-    "Casa residencial",
-    "Edificio / Apartamentos",
-    "Remodelación",
-    "Acabados",
-    "Construcción comercial",
-    "Mantenimiento / Arreglos",
-    "Otro",
-  ];
+  const services = t.raw("services") as string[];
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -46,7 +40,7 @@ export default function Contact() {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const contact = CONTACTS.find((c) => c.name === form.recipient) || CONTACTS[0];
-    const msg = `Hola Mobaz! 👋\n\n*Nombre:* ${form.name}\n*Teléfono:* ${form.phone}\n*Email:* ${form.email}\n*Servicio:* ${form.service}\n*Mensaje:* ${form.message}`;
+    const msg = `${t("whatsappGreeting")} 👋\n\n*${t("whatsappName")}:* ${form.name}\n*${t("whatsappPhone")}:* ${form.phone}\n*${t("whatsappEmail")}:* ${form.email}\n*${t("whatsappService")}:* ${form.service}\n*${t("whatsappMessage")}:* ${form.message}`;
     const url = `https://wa.me/${waNumber(contact.phone)}?text=${encodeURIComponent(msg)}`;
     window.open(url, "_blank");
   }
@@ -60,13 +54,13 @@ export default function Contact() {
         {/* Header */}
         <div className="text-center mb-16">
           <span className="text-[#b70000] font-semibold text-sm uppercase tracking-widest">
-            Hablemos
+            {t("label")}
           </span>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-            Contáctanos
+            {t("title")}
           </h2>
           <p className="text-gray-500 text-lg max-w-2xl mx-auto">
-            ¿Tenés un proyecto en mente? Escribínos y te damos una cotización gratuita sin compromiso.
+            {t("subtitle")}
           </p>
         </div>
 
@@ -74,7 +68,7 @@ export default function Contact() {
           {/* Info */}
           <div className="lg:col-span-2 space-y-6">
             <div className="bg-white rounded-2xl p-7 shadow-sm border border-gray-100">
-              <h3 className="text-xl font-bold text-gray-900 mb-6">Información de contacto</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-6">{t("infoTitle")}</h3>
               <div className="space-y-5">
                 {CONTACTS.map((contact) => (
                   <a
@@ -99,8 +93,8 @@ export default function Contact() {
                     <MapPin size={20} className="text-[#333d73]" />
                   </div>
                   <div>
-                    <div className="text-xs text-gray-400 font-medium">Ubicación</div>
-                    <div className="font-semibold text-gray-900">Costa Rica</div>
+                    <div className="text-xs text-gray-400 font-medium">{t("ubicacionLabel")}</div>
+                    <div className="font-semibold text-gray-900">{t("ubicacionValue")}</div>
                   </div>
                 </div>
 
@@ -109,8 +103,8 @@ export default function Contact() {
                     <Clock size={20} className="text-[#b70000]" />
                   </div>
                   <div>
-                    <div className="text-xs text-gray-400 font-medium">Horario</div>
-                    <div className="font-semibold text-gray-900">Lun - Sáb: 7am - 5pm</div>
+                    <div className="text-xs text-gray-400 font-medium">{t("horarioLabel")}</div>
+                    <div className="font-semibold text-gray-900">{t("horarioValue")}</div>
                   </div>
                 </div>
               </div>
@@ -121,13 +115,13 @@ export default function Contact() {
               {CONTACTS.map((contact) => (
                 <a
                   key={contact.name}
-                  href={`https://wa.me/${waNumber(contact.phone)}?text=${encodeURIComponent("Hola! Me gustaría información sobre sus servicios de construcción.")}`}
+                  href={`https://wa.me/${waNumber(contact.phone)}?text=${encodeURIComponent(t("whatsappDirectGreeting"))}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-3 bg-[#b70000] hover:bg-[#960000] text-white font-bold px-6 py-4 w-full transition-colors duration-200"
                 >
                   <MessageCircle size={22} />
-                  Chatear con {contact.name}
+                  {t("chatWith", { name: contact.name })}
                 </a>
               ))}
             </div>
@@ -136,12 +130,12 @@ export default function Contact() {
           {/* Form */}
           <div className="lg:col-span-3">
             <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-              <h3 className="text-xl font-bold text-gray-900 mb-6">Enviar consulta</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-6">{t("formTitle")}</h3>
               <div className="space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                      Nombre *
+                      {t("nombreLabel")}
                     </label>
                     <input
                       type="text"
@@ -149,13 +143,13 @@ export default function Contact() {
                       value={form.name}
                       onChange={handleChange}
                       required
-                      placeholder="Tu nombre completo"
+                      placeholder={t("nombrePlaceholder")}
                       className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#333d73] focus:border-transparent transition"
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                      Teléfono *
+                      {t("telefonoLabel")}
                     </label>
                     <input
                       type="tel"
@@ -163,7 +157,7 @@ export default function Contact() {
                       value={form.phone}
                       onChange={handleChange}
                       required
-                      placeholder="8888-8888"
+                      placeholder={t("telefonoPlaceholder")}
                       className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#333d73] focus:border-transparent transition"
                     />
                   </div>
@@ -171,21 +165,21 @@ export default function Contact() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                    Correo electrónico
+                    {t("correoLabel")}
                   </label>
                   <input
                     type="email"
                     name="email"
                     value={form.email}
                     onChange={handleChange}
-                    placeholder="correo@ejemplo.com"
+                    placeholder={t("correoPlaceholder")}
                     className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#333d73] focus:border-transparent transition"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                    Servicio de interés *
+                    {t("servicioLabel")}
                   </label>
                   <select
                     name="service"
@@ -194,7 +188,7 @@ export default function Contact() {
                     required
                     className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#333d73] focus:border-transparent transition bg-white"
                   >
-                    <option value="">Seleccionar servicio...</option>
+                    <option value="">{t("servicioPlaceholder")}</option>
                     {services.map((s) => (
                       <option key={s} value={s}>{s}</option>
                     ))}
@@ -203,7 +197,7 @@ export default function Contact() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                    ¿A quién enviar tu mensaje? *
+                    {t("recipientLabel")}
                   </label>
                   <select
                     name="recipient"
@@ -212,7 +206,7 @@ export default function Contact() {
                     required
                     className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#333d73] focus:border-transparent transition bg-white"
                   >
-                    <option value="">Seleccionar contacto...</option>
+                    <option value="">{t("recipientPlaceholder")}</option>
                     {CONTACTS.map((c) => (
                       <option key={c.name} value={c.name}>{c.name} — {formatPhone(c.phone)}</option>
                     ))}
@@ -221,7 +215,7 @@ export default function Contact() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                    Descripción del proyecto *
+                    {t("descripcionLabel")}
                   </label>
                   <textarea
                     name="message"
@@ -229,7 +223,7 @@ export default function Contact() {
                     onChange={handleChange}
                     required
                     rows={4}
-                    placeholder="Cuéntanos sobre tu proyecto: tamaño, ubicación, materiales que tenés en mente, presupuesto aproximado..."
+                    placeholder={t("descripcionPlaceholder")}
                     className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#333d73] focus:border-transparent transition resize-none"
                   />
                 </div>
@@ -240,10 +234,10 @@ export default function Contact() {
                   className="w-full flex items-center justify-center gap-2 bg-[#1a1a1a] hover:bg-[#b70000] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold px-6 py-4 transition-colors duration-200"
                 >
                   <Send size={18} />
-                  Enviar por WhatsApp
+                  {t("submit")}
                 </button>
                 <p className="text-xs text-gray-400 text-center">
-                  Al enviar, se abrirá WhatsApp con tu mensaje listo para enviar.
+                  {t("submitNote")}
                 </p>
               </div>
             </form>

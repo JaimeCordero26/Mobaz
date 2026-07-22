@@ -1,33 +1,31 @@
 import { Eye, Target, HeartHandshake } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import BuildingSkyline from "./BuildingSkyline";
 
-const pillars = [
-  {
-    icon: Target,
-    title: "Misión",
-    text: "Construir en forma sustentable, con un enfoque en la excelencia, eficiencia y eficacia de los proyectos, logrando satisfacer las necesidades de nuestros clientes, mejorando continuamente.",
-  },
-  {
-    icon: Eye,
-    title: "Visión",
-    text: "Liderar el mercado de las obras de ingeniería y construcción con calidad y excelencia, con un gran compromiso social, aportando una alta satisfacción a nuestros clientes y colaboradores.",
-  },
-  {
-    icon: HeartHandshake,
-    title: "Valores",
-    text: "Transparencia, honestidad, pasión, calidad, orientación al cliente y trabajo en equipo. Atendemos clientes pequeños y grandes con un servicio profesional y personalizado.",
-  },
+const TEAM: {
+  name: string;
+  role: string;
+  profession: string;
+  code: string;
+  photo: string;
+  zoom?: boolean;
+}[] = [
+  { name: "Jason Mora Cordero", role: "roleOwner", profession: "profCivilEngineer", code: "(IC-27071)", photo: "/team/jason.png" },
+  { name: "Bryan Mora Cordero", role: "roleOwner", profession: "profElectromechEngineer", code: "(IME-28435)", photo: "/team/bryan.png", zoom: true },
+  { name: "Alfonso Castro", role: "roleDirector", profession: "profArchitect", code: "(ARQ-37779)", photo: "/team/alfonso.png", zoom: true },
+  { name: "Tatiana Fonseca Fernández", role: "roleDirectorF", profession: "profArchitectF", code: "(ARQ-29725)", photo: "/team/tatiana.png" },
+  { name: "Douglas Melgara", role: "roleDirector", profession: "profCivilEngineer", code: "", photo: "/team/douglas.png", zoom: true },
 ];
 
-const TEAM = [
-  { name: "Jason Mora Cordero", role: "Propietario y Desarrollador", profession: "Ingeniero Civil (IC-27071)", photo: "/team/jason.png" },
-  { name: "Bryan Mora Cordero", role: "Propietario y Desarrollador", profession: "Ingeniero Electromecánico (IME-28435)", photo: "/team/bryan.png", zoom: true },
-  { name: "Alfonso Castro", role: "Director de Proyecto", profession: "Arquitecto (ARQ-37779)", photo: "/team/alfonso.png", zoom: true },
-  { name: "Tatiana Fonseca Fernández", role: "Directora de Proyecto", profession: "Arquitecta (ARQ-29725)", photo: "/team/tatiana.png" },
-  { name: "Douglas Melgara", role: "Director de Proyecto", profession: "Ingeniero Civil", photo: "/team/douglas.png", zoom: true },
-];
+export default async function QuienesSomos() {
+  const t = await getTranslations("QuienesSomos");
 
-export default function QuienesSomos() {
+  const pillars = [
+    { icon: Target, title: t("misionTitle"), text: t("misionText") },
+    { icon: Eye, title: t("visionTitle"), text: t("visionText") },
+    { icon: HeartHandshake, title: t("valoresTitle"), text: t("valoresText") },
+  ];
+
   return (
     <section id="quienes-somos" className="relative overflow-hidden py-24 bg-[#e6e6e6]">
       <BuildingSkyline className="absolute -bottom-6 -right-16 w-[420px] h-[210px] text-[#1a1a1a]/[0.06] pointer-events-none hidden md:block" />
@@ -35,18 +33,13 @@ export default function QuienesSomos() {
         {/* Header */}
         <div className="text-center mb-16">
           <span className="text-[#b70000] font-semibold text-sm uppercase tracking-widest">
-            Quiénes somos
+            {t("label")}
           </span>
           <h2 className="text-4xl md:text-5xl font-bold text-[#1a1a1a] mt-2 mb-4">
-            Acerca de nosotros
+            {t("title")}
           </h2>
           <p className="text-[#1a1a1a]/60 text-lg max-w-3xl mx-auto leading-relaxed">
-            Mobaz es una compañía constructora familiar con sede en Guanacaste, Costa Rica.
-            Fundada en 2014, brindamos apoyo integral para el desarrollo de proyectos en las
-            distintas ramas de la ingeniería: diseño civil y arquitectónico, diseño eléctrico
-            y mecánico, visado de planos, servicios topográficos, presupuestos de obra, y
-            construcción y supervisión de proyectos residenciales, comerciales, urbanísticos
-            e industriales.
+            {t("intro")}
           </p>
         </div>
 
@@ -69,14 +62,13 @@ export default function QuienesSomos() {
         {/* Equipo */}
         <div className="text-center mb-16">
           <span className="text-[#b70000] font-semibold text-sm uppercase tracking-widest">
-            Nuestro equipo
+            {t("teamLabel")}
           </span>
           <h3 className="text-3xl md:text-4xl font-bold text-[#1a1a1a] mt-2 mb-4">
-            Conozca a nuestros profesionales
+            {t("teamTitle")}
           </h3>
           <p className="text-[#1a1a1a]/60 text-lg max-w-2xl mx-auto">
-            El equipo detrás de cada proyecto: ingenieros y arquitectos con años de experiencia
-            entregando obras llave en mano.
+            {t("teamIntro")}
           </p>
         </div>
 
@@ -96,9 +88,11 @@ export default function QuienesSomos() {
               </div>
               <h4 className="font-bold text-[#1a1a1a] leading-snug">{member.name}</h4>
               <p className="text-[#b70000] text-xs font-semibold uppercase tracking-wide mt-1">
-                {member.role}
+                {t(member.role)}
               </p>
-              <p className="text-[#1a1a1a]/50 text-sm mt-2">{member.profession}</p>
+              <p className="text-[#1a1a1a]/50 text-sm mt-2">
+                {t(member.profession)} {member.code}
+              </p>
             </div>
           ))}
         </div>

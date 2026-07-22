@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Albert_Sans, Overpass } from "next/font/google";
+import { getLocale } from "next-intl/server";
 import "./globals.css";
 
 const albertSans = Albert_Sans({
@@ -30,13 +31,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = await getLocale();
   return (
-    <html lang="es" className="h-full">
+    <html lang={locale} className="h-full">
       <body className={`${albertSans.variable} ${overpass.variable} min-h-full antialiased`}>{children}</body>
     </html>
   );

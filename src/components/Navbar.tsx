@@ -1,9 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Navbar() {
+  const t = useTranslations("Nav");
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -22,11 +25,11 @@ export default function Navbar() {
   }, [isOpen]);
 
   const links = [
-    { href: "#inicio", label: "Inicio" },
-    { href: "#quienes-somos", label: "Quiénes Somos" },
-    { href: "#servicios", label: "Servicios" },
-    { href: "#portafolio", label: "Portafolio" },
-    { href: "#contacto", label: "Contacto" },
+    { href: "#inicio", label: t("inicio") },
+    { href: "#quienes-somos", label: t("quienesSomos") },
+    { href: "#servicios", label: t("servicios") },
+    { href: "#portafolio", label: t("portafolio") },
+    { href: "#contacto", label: t("contacto") },
   ];
 
   return (
@@ -58,11 +61,12 @@ export default function Navbar() {
                 {link.label}
               </a>
             ))}
+            <LanguageSwitcher className="text-[#1a1a1a] hover:text-[#b70000] transition-colors duration-200" />
             <a
               href="#contacto"
               className="bg-[#b70000] hover:bg-[#960000] text-white px-5 py-2.5 font-semibold transition-colors duration-200 text-sm"
             >
-              Cotizar
+              {t("cotizar")}
             </a>
           </div>
 
@@ -105,13 +109,16 @@ export default function Navbar() {
               </a>
             ))}
           </div>
-          <a
-            href="#contacto"
-            className="block bg-[#b70000] hover:bg-[#960000] text-white px-5 py-3 font-semibold text-center transition-colors mt-6"
-            onClick={() => setIsOpen(false)}
-          >
-            Cotizar
-          </a>
+          <div className="flex items-center justify-between mt-6">
+            <LanguageSwitcher className="text-[#1a1a1a]" />
+            <a
+              href="#contacto"
+              className="flex-1 ml-4 block bg-[#b70000] hover:bg-[#960000] text-white px-5 py-3 font-semibold text-center transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              {t("cotizar")}
+            </a>
+          </div>
         </div>
       </div>
     </nav>

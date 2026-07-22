@@ -1,9 +1,20 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { MapPin, X, ChevronLeft, ChevronRight, Images } from "lucide-react";
 import { getClient, type Project } from "@/lib/supabase";
 import BuildingSkyline from "./BuildingSkyline";
+
+// Las categorías se guardan en español en la base de datos (son las que
+// usa el panel admin). Este mapa solo traduce la ETIQUETA visible.
+const categoryKeys: Record<string, string> = {
+  Todos: "categoryTodos",
+  Residencial: "categoryResidencial",
+  Comercial: "categoryComercial",
+  Apartamentos: "categoryApartamentos",
+  Remodelación: "categoryRemodelacion",
+};
 
 const demoProjects: Project[] = [
   {
@@ -73,6 +84,7 @@ function ProjectCard({
   project: Project;
   onOpen: (p: Project, startIndex: number) => void;
 }) {
+  const t = useTranslations("Portfolio");
   const [idx, setIdx] = useState(0);
   const [hovered, setHovered] = useState(false);
   const images = project.images || [];
@@ -162,14 +174,14 @@ function ProjectCard({
           </>
         ) : (
           <div className="flex items-center justify-center h-full">
-            <span className="text-gray-400 text-sm">Sin imagen</span>
+            <span className="text-gray-400 text-sm">{t("noImage")}</span>
           </div>
         )}
 
         {/* Category badge */}
         <div className="absolute top-3 left-3 z-10">
           <span className={`text-xs font-semibold px-3 py-1 rounded-full ${categoryColors[project.category] || "bg-gray-100 text-gray-600"}`}>
-            {project.category}
+            {categoryKeys[project.category] ? t(categoryKeys[project.category] as never) : project.category}
           </span>
         </div>
 
@@ -187,7 +199,7 @@ function ProjectCard({
         </div>
         <p className="text-gray-500 text-sm line-clamp-2">{project.description}</p>
         <div className="mt-3 text-xs text-[#b70000] font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          Ver detalles →
+          {t("viewDetails")}
         </div>
       </div>
     </div>
@@ -196,6 +208,7 @@ function ProjectCard({
 
 // ── Main section ──────────────────────────────────────────────────────────────
 export default function Portfolio() {
+  const t = useTranslations("Portfolio");
   const [projects, setProjects] = useState<Project[]>([]);
   const [activeCategory, setActiveCategory] = useState("Todos");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -268,13 +281,13 @@ export default function Portfolio() {
         {/* Header */}
         <div className="text-center mb-12">
           <span className="text-[#b70000] font-semibold text-sm uppercase tracking-widest">
-            Nuestro trabajo
+            {t("label")}
           </span>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-4">
-            Portafolio de Proyectos
+            {t("title")}
           </h2>
           <p className="text-gray-500 text-lg max-w-2xl mx-auto">
-            Cada proyecto refleja nuestro compromiso con la calidad, la puntualidad y la satisfacción del cliente.
+            {t("subtitle")}
           </p>
         </div>
 
@@ -290,7 +303,7 @@ export default function Portfolio() {
                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               }`}
             >
-              {cat}
+              {t(categoryKeys[cat] as never)}
             </button>
           ))}
         </div>
@@ -303,7 +316,7 @@ export default function Portfolio() {
             ))}
           </div>
         ) : filtered.length === 0 ? (
-          <p className="text-center text-gray-400 mt-10">No hay proyectos en esta categoría aún.</p>
+          <p className="text-center text-gray-400 mt-10">{t("noProjects")}</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map((project) => (
@@ -337,7 +350,7 @@ export default function Portfolio() {
                   className="w-full h-full object-contain"
                 />
               ) : (
-                <div className="flex items-center justify-center h-full text-white/30">Sin imagen</div>
+                <div className="flex items-center justify-center h-full text-white/30">{t("noImage")}</div>
               )}
 
               {selectedProject.images?.length > 1 && (
@@ -371,7 +384,7 @@ export default function Portfolio() {
 
                   {/* Hint de swipe — solo en móvil, desaparece tras 2s */}
                   <div className="absolute bottom-10 left-1/2 -translate-x-1/2 sm:hidden">
-                    <span className="text-white/40 text-xs">← deslizá para cambiar →</span>
+                    <span className="text-white/40 text-xs">{t("swipeHint")}</span>
                   </div>
                 </>
               )}
@@ -413,7 +426,7 @@ export default function Portfolio() {
                   </div>
                 </div>
                 <span className={`text-xs sm:text-sm font-semibold px-3 py-1 rounded-full whitespace-nowrap ${categoryColors[selectedProject.category] || "bg-gray-100 text-gray-600"}`}>
-                  {selectedProject.category}
+                  {categoryKeys[selectedProject.category] ? t(categoryKeys[selectedProject.category] as never) : selectedProject.category}
                 </span>
               </div>
               <p className="text-gray-600 mt-3 leading-relaxed text-sm sm:text-base">{selectedProject.description}</p>
@@ -422,7 +435,7 @@ export default function Portfolio() {
                 onClick={closeModal}
                 className="mt-5 inline-block bg-[#b70000] hover:bg-[#960000] text-white font-semibold px-6 py-3 transition-colors text-sm"
               >
-                Cotizar proyecto similar
+                {t("quoteSimilar")}
               </a>
             </div>
           </div>
