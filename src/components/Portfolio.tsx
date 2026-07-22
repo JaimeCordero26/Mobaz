@@ -329,16 +329,16 @@ export default function Portfolio() {
       {/* ── Lightbox modal ── */}
       {selectedProject && (
         <div
-          className="fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-3 sm:p-6"
+          className="fixed inset-0 bg-black/90 sm:bg-black/85 z-50 flex items-center justify-center sm:p-6"
           onClick={closeModal}
         >
           <div
-            className="bg-white rounded-2xl w-full max-w-6xl overflow-hidden shadow-2xl"
+            className="bg-white w-full h-full sm:h-auto sm:max-h-[90vh] sm:max-w-6xl sm:rounded-2xl overflow-hidden shadow-2xl flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Carousel con swipe */}
             <div
-              className="relative bg-gray-950 h-[60vh] sm:h-[75vh] select-none"
+              className="relative bg-gray-950 flex-1 min-h-0 sm:flex-none sm:h-[75vh] select-none"
               {...(selectedProject.images?.length > 1 ? modalSwipe : {})}
             >
               {selectedProject.images?.length > 0 ? (
@@ -391,15 +391,15 @@ export default function Portfolio() {
 
               <button
                 onClick={closeModal}
-                className="absolute top-3 right-3 bg-black/50 hover:bg-black/80 text-white rounded-full p-1.5 transition-colors"
+                className="absolute top-3 right-3 bg-black/50 hover:bg-black/80 text-white rounded-full p-2 transition-colors"
               >
-                <X size={18} />
+                <X size={20} />
               </button>
             </div>
 
             {/* Thumbnails */}
             {selectedProject.images?.length > 1 && (
-              <div className="flex gap-2 px-4 py-3 bg-gray-50 overflow-x-auto">
+              <div className="flex-shrink-0 flex gap-2 px-4 py-3 bg-gray-50 overflow-x-auto">
                 {selectedProject.images.map((src, i) => (
                   <button
                     key={i}
@@ -416,7 +416,7 @@ export default function Portfolio() {
             )}
 
             {/* Details */}
-            <div className="p-5 sm:p-6">
+            <div className="flex-shrink-0 max-h-[30vh] sm:max-h-none overflow-y-auto p-5 sm:p-6">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h3 className="text-xl sm:text-2xl font-bold text-gray-900">{selectedProject.name}</h3>
