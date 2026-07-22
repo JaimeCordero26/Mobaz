@@ -4,6 +4,12 @@ import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
 import LanguageSwitcher from "./LanguageSwitcher";
+import { InstagramIcon, FacebookIcon } from "./SocialIcons";
+
+const SOCIALS = [
+  { name: "Instagram", href: "https://instagram.com/mobazcr", Icon: InstagramIcon },
+  { name: "Facebook", href: "https://www.facebook.com/share/1DsmeCFA4v/?mibextid=wwXIfr", Icon: FacebookIcon },
+];
 
 export default function Navbar() {
   const t = useTranslations("Nav");
@@ -64,6 +70,20 @@ export default function Navbar() {
               ))}
             </div>
             <div className="flex items-center gap-4 pl-6 border-l border-[#e6e6e6]">
+              <div className="flex items-center gap-3">
+                {SOCIALS.map(({ name, href, Icon }) => (
+                  <a
+                    key={name}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={name}
+                    className="text-[#1a1a1a]/50 hover:text-[#b70000] transition-colors duration-200"
+                  >
+                    <Icon size={16} />
+                  </a>
+                ))}
+              </div>
               <LanguageSwitcher className="text-[#1a1a1a]" />
               <a
                 href="#contacto"
@@ -114,6 +134,20 @@ export default function Navbar() {
             ))}
           </div>
           <div className="flex flex-col gap-3 mt-6 pt-6 border-t border-gray-100">
+            <div className="flex items-center justify-center gap-5">
+              {SOCIALS.map(({ name, href, Icon }) => (
+                <a
+                  key={name}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={name}
+                  className="text-[#1a1a1a]/50 hover:text-[#b70000] transition-colors duration-200"
+                >
+                  <Icon size={18} />
+                </a>
+              ))}
+            </div>
             <LanguageSwitcher className="text-[#1a1a1a] w-full justify-center" />
             <a
               href="#contacto"
