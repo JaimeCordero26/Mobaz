@@ -320,12 +320,12 @@ export default function Portfolio() {
           onClick={closeModal}
         >
           <div
-            className="bg-white rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl"
+            className="bg-white rounded-2xl w-full max-w-6xl overflow-hidden shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Carousel con swipe */}
             <div
-              className="relative bg-gray-950 h-64 sm:h-[26rem] select-none"
+              className="relative bg-gray-950 h-[60vh] sm:h-[75vh] select-none"
               {...(selectedProject.images?.length > 1 ? modalSwipe : {})}
             >
               {selectedProject.images?.length > 0 ? (
@@ -391,7 +391,7 @@ export default function Portfolio() {
                   <button
                     key={i}
                     onClick={() => setImageIndex(i)}
-                    className={`flex-shrink-0 w-14 h-14 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
+                    className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
                       i === imageIndex ? "border-[#b70000] opacity-100" : "border-transparent opacity-50 hover:opacity-80"
                     }`}
                   >
