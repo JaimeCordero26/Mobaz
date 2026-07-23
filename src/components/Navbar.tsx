@@ -48,29 +48,28 @@ export default function Navbar() {
   ];
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 bg-white transition-shadow duration-300 ${
-        scrolled ? "shadow-sm" : ""
-      }`}
-    >
-      {/* Wrapper con el transform del auto-hide — separado del <nav> para que
-          los hijos "fixed" (backdrop y panel mobile) no queden atrapados
-          dentro de su containing block (un ancestro con transform rompe
-          position: fixed de sus descendientes). */}
+    <nav className="fixed top-0 left-0 right-0 z-50">
+      {/* Wrapper con el bg, shadow y transform del auto-hide — separado del
+          <nav> para que los hijos "fixed" (backdrop y panel mobile) no queden
+          atrapados dentro de su containing block (un ancestro con transform
+          rompe position: fixed de sus descendientes). El transform solo se
+          aplica cuando está oculto: dejarlo siempre puesto (translate-y-0)
+          crea un stacking context permanente que atrapa el z-index del botón
+          hamburguesa por debajo del backdrop/panel del menú mobile. */}
       <div
-        className={`transition-transform duration-300 ${
-          hidden ? "-translate-y-full" : "translate-y-0"
-        }`}
+        className={`bg-white transition-all duration-300 ${
+          scrolled ? "shadow-sm" : ""
+        } ${hidden ? "-translate-y-full" : ""}`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-18">
+        <div className="px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-14 lg:h-18">
             {/* Logo */}
             <a href="#inicio" className="flex items-center flex-shrink-0 min-w-0">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/logo/logo.png"
                 alt="Mobaz"
-                className="h-10 sm:h-12 w-auto object-contain max-w-[160px] sm:max-w-xs"
+                className="h-12 sm:h-14 w-auto object-contain max-w-[160px] sm:max-w-xs"
               />
             </a>
 
@@ -112,29 +111,50 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Mobile menu button — hamburger que se transforma en X */}
-            <button
-              className="lg:hidden relative z-[70] w-8 h-8 flex flex-col justify-center items-center gap-[6px]"
-              onClick={() => setIsOpen(!isOpen)}
-              aria-label="Menú"
-              aria-expanded={isOpen}
-            >
-              <span
-                className={`block h-0.5 w-6 bg-[#1a1a1a] transition-all duration-300 ease-in-out ${
-                  isOpen ? "translate-y-[8px] rotate-45" : ""
-                }`}
-              />
-              <span
-                className={`block h-0.5 w-6 bg-[#1a1a1a] transition-all duration-300 ease-in-out ${
-                  isOpen ? "opacity-0" : "opacity-100"
-                }`}
-              />
-              <span
-                className={`block h-0.5 w-6 bg-[#1a1a1a] transition-all duration-300 ease-in-out ${
-                  isOpen ? "-translate-y-[8px] -rotate-45" : ""
-                }`}
-              />
-            </button>
+            {/* Redes sociales + selector de idioma en mobile — visibles siempre
+                en la barra, no solo dentro del panel desplegable. */}
+            <div className="lg:hidden flex items-center gap-3 h-full shrink-0">
+              <div className="flex items-center gap-3 shrink-0">
+                {SOCIALS.map(({ name, href, Icon }) => (
+                  <a
+                    key={name}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={name}
+                    className="text-[#1a1a1a]/50 hover:text-[#b70000] transition-colors duration-200"
+                  >
+                    <Icon size={16} />
+                  </a>
+                ))}
+              </div>
+              <LanguageSwitcher className="text-[#1a1a1a] shrink-0" />
+
+              {/* Mobile menu button — hamburger que se transforma en X */}
+              <button
+                type="button"
+                className="relative z-[70] w-8 h-8 shrink-0 flex flex-col justify-center items-center gap-[6px]"
+                onClick={() => setIsOpen(!isOpen)}
+                aria-label="Menú"
+                aria-expanded={isOpen}
+              >
+                <span
+                  className={`block h-0.5 w-6 bg-[#1a1a1a] transition-all duration-300 ease-in-out ${
+                    isOpen ? "translate-y-[8px] rotate-45" : ""
+                  }`}
+                />
+                <span
+                  className={`block h-0.5 w-6 bg-[#1a1a1a] transition-all duration-300 ease-in-out ${
+                    isOpen ? "opacity-0" : "opacity-100"
+                  }`}
+                />
+                <span
+                  className={`block h-0.5 w-6 bg-[#1a1a1a] transition-all duration-300 ease-in-out ${
+                    isOpen ? "-translate-y-[8px] -rotate-45" : ""
+                  }`}
+                />
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -154,7 +174,19 @@ export default function Navbar() {
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="px-6 pt-24 pb-8 h-full overflow-y-auto flex flex-col">
+        <div className="px-6 pt-20 pb-8 h-full overflow-y-auto flex flex-col">
+          <a
+            href="#inicio"
+            className="flex items-center mb-6"
+            onClick={() => setIsOpen(false)}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo/logo.png"
+              alt="Mobaz"
+              className="h-10 w-auto object-contain"
+            />
+          </a>
           <div className="space-y-1 flex-1">
             {links.map((link) => (
               <a

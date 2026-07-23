@@ -34,20 +34,18 @@ export default function QuienesSomos() {
     <section id="quienes-somos" className="relative overflow-hidden py-24 bg-[#e6e6e6]">
       <BuildingSkyline className="absolute -bottom-6 -right-16 w-[420px] h-[210px] text-[#1a1a1a]/[0.06] pointer-events-none hidden md:block" />
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header único */}
+        {/* Header general de la sección */}
         <div className="text-center mb-12">
-          <span className="text-[#b70000] font-semibold text-sm uppercase tracking-widest">
-            {t("label")}
-          </span>
-          <h2 className="text-4xl md:text-5xl font-bold text-[#1a1a1a] mt-2">
+          <h2 className="text-4xl md:text-5xl font-bold text-[#1a1a1a]">
             {t("title")}
           </h2>
         </div>
 
         {/* Bento: intro, misión/visión/valores y equipo en un solo bloque */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-[minmax(140px,auto)] gap-4">
-          {/* Intro */}
-          <div className="sm:col-span-2 lg:col-span-2 lg:row-span-2 bg-white border border-[#e6e6e6] p-8 flex items-center">
+          {/* Intro — la historia de la empresa, con "Quiénes Somos" como título */}
+          <div className="sm:col-span-2 lg:col-span-2 lg:row-span-2 bg-white border border-[#e6e6e6] p-8 flex flex-col justify-center gap-3">
+            <h3 className="text-2xl font-bold text-[#b70000]">{t("label")}</h3>
             <p className="text-[#1a1a1a]/60 text-lg leading-relaxed">{t("intro")}</p>
           </div>
 
