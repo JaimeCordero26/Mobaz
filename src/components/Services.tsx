@@ -43,6 +43,29 @@ export default async function Services() {
           </p>
         </div>
 
+        {/* Flexibilidad — el cliente puede traer solo la idea o ya venir con diseño/planos */}
+        <div className="mb-14 bg-[#1a1a1a] p-8 md:p-10">
+          <div className="text-center mb-8">
+            <span className="text-[#ff5a5a] font-semibold text-xs uppercase tracking-widest">
+              {t("flexLabel")}
+            </span>
+            <h3 className="text-2xl md:text-3xl font-bold text-white mt-2">
+              {t("flexTitle")}
+            </h3>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-6">
+            <div className="bg-white/5 border border-white/10 p-6">
+              <h4 className="font-bold text-white text-lg mb-2">{t("flexPath1Title")}</h4>
+              <p className="text-white/60 text-sm leading-relaxed">{t("flexPath1Text")}</p>
+            </div>
+            <div className="bg-white/5 border border-white/10 p-6">
+              <h4 className="font-bold text-white text-lg mb-2">{t("flexPath2Title")}</h4>
+              <p className="text-white/60 text-sm leading-relaxed">{t("flexPath2Text")}</p>
+            </div>
+          </div>
+          <p className="text-center text-white/50 text-sm mt-8">{t("flexFooter")}</p>
+        </div>
+
         {/* Pilares */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {pillars.map((pillar) => {

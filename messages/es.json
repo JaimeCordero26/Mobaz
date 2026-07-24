@@ -60,7 +60,14 @@
     "construccionItems": ["Residencial", "Comercial", "Urbanístico", "Remodelaciones"],
     "administracionTitle": "Administración",
     "administracionDescription": "Manejo integral del proyecto de principio a fin.",
-    "administracionItems": ["Presupuestos", "Inspecciones privadas", "Administración de proyectos", "Tramitología"]
+    "administracionItems": ["Presupuestos", "Inspecciones privadas", "Administración de proyectos", "Tramitología"],
+    "flexLabel": "Cómo trabajamos",
+    "flexTitle": "Nos adaptamos a vos, no al revés",
+    "flexPath1Title": "Venís solo con la idea",
+    "flexPath1Text": "Nosotros nos encargamos de todo: diseño, planos, permisos y construcción, de principio a fin.",
+    "flexPath2Title": "Ya tenés el diseño o los planos",
+    "flexPath2Text": "Partimos de ahí. Construimos o administramos tu proyecto sin necesidad de rehacer nada.",
+    "flexFooter": "Esa flexibilidad para adaptarnos a cada cliente es lo que nos distingue."
   },
   "Portfolio": {
     "label": "Nuestro trabajo",

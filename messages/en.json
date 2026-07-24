@@ -60,7 +60,14 @@
     "construccionItems": ["Residential", "Commercial", "Urban development", "Remodeling"],
     "administracionTitle": "Administration",
     "administracionDescription": "Full project management from start to finish.",
-    "administracionItems": ["Budgeting", "Private inspections", "Project management", "Permitting & red tape"]
+    "administracionItems": ["Budgeting", "Private inspections", "Project management", "Permitting & red tape"],
+    "flexLabel": "How we work",
+    "flexTitle": "We adapt to you, not the other way around",
+    "flexPath1Title": "You come with just the idea",
+    "flexPath1Text": "We take care of everything: design, plans, permits and construction, start to finish.",
+    "flexPath2Title": "You already have the design or plans",
+    "flexPath2Text": "We pick up from there. We build or manage your project — no need to redo anything.",
+    "flexFooter": "That flexibility to adapt to every client is what sets us apart."
   },
   "Portfolio": {
     "label": "Our work",
