@@ -117,7 +117,7 @@ function ProjectCard({
     >
       {/* Image area */}
       <div
-        className="relative h-56 sm:h-60 bg-[#e6e6e6] overflow-hidden"
+        className="relative h-72 bg-[#e6e6e6] overflow-hidden"
         {...(images.length > 1 ? swipe : {})}
       >
         {images.length > 0 ? (
