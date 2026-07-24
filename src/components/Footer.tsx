@@ -1,5 +1,6 @@
 import { MessageCircle } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { InstagramIcon, FacebookIcon } from "./SocialIcons";
 
 const CONTACTS = [
@@ -18,11 +19,11 @@ export default async function Footer() {
   const currentYear = new Date().getFullYear();
 
   const navLinks = [
-    { href: "#inicio", label: tNav("inicio") },
-    { href: "#quienes-somos", label: tNav("quienesSomos") },
-    { href: "#servicios", label: tNav("servicios") },
-    { href: "#portafolio", label: tNav("portafolio") },
-    { href: "#contacto", label: tNav("contacto") },
+    { href: "/#inicio", label: tNav("inicio") },
+    { href: "/nosotros", label: tNav("quienesSomos") },
+    { href: "/#servicios", label: tNav("servicios") },
+    { href: "/#portafolio", label: tNav("portafolio") },
+    { href: "/#contacto", label: tNav("contacto") },
   ];
 
   return (
@@ -58,12 +59,12 @@ export default async function Footer() {
             <ul className="space-y-2">
               {navLinks.map((link) => (
                 <li key={link.href}>
-                  <a
+                  <Link
                     href={link.href}
                     className="text-gray-400 hover:text-[#b70000] text-sm transition-colors"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

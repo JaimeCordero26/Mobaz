@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { InstagramIcon, FacebookIcon } from "./SocialIcons";
 
@@ -40,11 +41,11 @@ export default function Navbar() {
   }, [isOpen]);
 
   const links = [
-    { href: "#inicio", label: t("inicio") },
-    { href: "#quienes-somos", label: t("quienesSomos") },
-    { href: "#servicios", label: t("servicios") },
-    { href: "#portafolio", label: t("portafolio") },
-    { href: "#contacto", label: t("contacto") },
+    { href: "/#inicio", label: t("inicio") },
+    { href: "/nosotros", label: t("quienesSomos") },
+    { href: "/#servicios", label: t("servicios") },
+    { href: "/#portafolio", label: t("portafolio") },
+    { href: "/#contacto", label: t("contacto") },
   ];
 
   return (
@@ -64,26 +65,26 @@ export default function Navbar() {
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14 lg:h-18">
             {/* Logo */}
-            <a href="#inicio" className="flex items-center flex-shrink-0 min-w-0">
+            <Link href="/#inicio" className="flex items-center flex-shrink-0 min-w-0">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/logo/logo.png"
                 alt="Mobaz"
                 className="h-12 sm:h-14 w-auto object-contain max-w-[160px] sm:max-w-xs"
               />
-            </a>
+            </Link>
 
             {/* Desktop links */}
             <div className="hidden lg:flex items-center gap-8">
               <div className="flex items-center gap-6">
                 {links.map((link) => (
-                  <a
+                  <Link
                     key={link.href}
                     href={link.href}
                     className="font-medium text-sm text-[#1a1a1a] hover:text-[#b70000] transition-colors duration-200"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 ))}
               </div>
               <div className="flex items-center gap-4 pl-6 border-l border-[#e6e6e6]">
@@ -102,12 +103,12 @@ export default function Navbar() {
                   ))}
                 </div>
                 <LanguageSwitcher className="text-[#1a1a1a]" />
-                <a
-                  href="#contacto"
+                <Link
+                  href="/#contacto"
                   className="bg-[#b70000] hover:bg-[#960000] text-white px-5 py-2.5 font-semibold transition-colors duration-200 text-sm whitespace-nowrap"
                 >
                   {t("cotizar")}
-                </a>
+                </Link>
               </div>
             </div>
 
@@ -175,8 +176,8 @@ export default function Navbar() {
         }`}
       >
         <div className="px-6 pt-20 pb-8 h-full overflow-y-auto flex flex-col">
-          <a
-            href="#inicio"
+          <Link
+            href="/#inicio"
             className="flex items-center mb-6"
             onClick={() => setIsOpen(false)}
           >
@@ -186,17 +187,17 @@ export default function Navbar() {
               alt="Mobaz"
               className="h-10 w-auto object-contain"
             />
-          </a>
+          </Link>
           <div className="space-y-1 flex-1">
             {links.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 className="block text-[#1a1a1a] font-medium hover:text-[#b70000] transition-colors py-3 border-b border-gray-100"
                 onClick={() => setIsOpen(false)}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </div>
           <div className="flex flex-col gap-3 mt-6 pt-6 border-t border-gray-100">
@@ -215,13 +216,13 @@ export default function Navbar() {
               ))}
             </div>
             <LanguageSwitcher className="text-[#1a1a1a] w-full justify-center" />
-            <a
-              href="#contacto"
+            <Link
+              href="/#contacto"
               className="block bg-[#b70000] hover:bg-[#960000] text-white px-5 py-3 font-semibold text-center transition-colors"
               onClick={() => setIsOpen(false)}
             >
               {t("cotizar")}
-            </a>
+            </Link>
           </div>
         </div>
       </div>
