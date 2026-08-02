@@ -8,17 +8,29 @@ import BuildingSkyline from "./BuildingSkyline";
 const TEAM: {
   name: string;
   role: string;
-  profession: string;
-  code: string;
-  photo: string;
-  zoom?: boolean;
+  photo?: string;
 }[] = [
-  { name: "Jason Mora Cordero", role: "roleOwner", profession: "profCivilEngineer", code: "(IC-27071)", photo: "/team/jason.png" },
-  { name: "Bryan Mora Cordero", role: "roleOwner", profession: "profElectromechEngineer", code: "(IME-28435)", photo: "/team/bryan.png", zoom: true },
-  { name: "Alfonso Castro", role: "roleDirector", profession: "profArchitect", code: "(ARQ-37779)", photo: "/team/alfonso.png", zoom: true },
-  { name: "Tatiana Fonseca Fernández", role: "roleDirectorF", profession: "profArchitectF", code: "(ARQ-29725)", photo: "/team/tatiana.png" },
-  { name: "Douglas Melgara", role: "roleDirector", profession: "profCivilEngineer", code: "", photo: "/team/douglas.png", zoom: true },
+  { name: "Ing. Jason Mora Cordero", role: "roleGeneralManager", photo: "/team/jason.png" },
+  { name: "Ing. Bryan Mora Cordero", role: "roleConstructionElectromech", photo: "/team/bryan.png" },
+  { name: "Paul Bazán Paredes", role: "roleMetalmechManager" },
+  { name: "Arq. Alfonso Castro Espinoza", role: "roleArchitectDesigner", photo: "/team/alfonso.png" },
+  { name: "Arq. Tatiana Fonseca Fernández", role: "roleArchitectDesignerF", photo: "/team/tatiana.png" },
+  { name: "Ing. Douglas Melgara Gutiérrez", role: "roleCivilEngineer", photo: "/team/douglas.png" },
+  { name: "Ing. Raquel Mora López", role: "roleCivilEngineerF", photo: "/team/raquel.png" },
+  { name: "Ing. María Pilar Madrigal Elizondo", role: "roleHrEngineer", photo: "/team/maria-pilar.png" },
+  { name: "Luis Alfredo Mora Gonzales", role: "roleAdminChief" },
+  { name: "Carla Porras Acuña", role: "roleHrLead", photo: "/team/carla.png" },
+  { name: "Yeril Hernández Lizano", role: "roleProcurementLead" },
+  { name: "Jefry Hernández Lizano", role: "roleProcurementAssistant" },
 ];
+
+function initials(name: string): string {
+  const parts = name
+    .replace(/^(Ing\.|Arq\.)\s*/i, "")
+    .trim()
+    .split(/\s+/);
+  return ((parts[0]?.[0] ?? "") + (parts[1]?.[0] ?? "")).toUpperCase();
+}
 
 export default function QuienesSomos() {
   const t = useTranslations("QuienesSomos");
@@ -101,19 +113,22 @@ export default function QuienesSomos() {
               className="bg-white p-6 text-center border border-transparent hover:border-[#b70000] transition-colors duration-300"
             >
               <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-3 border-2 border-[#e6e6e6] shadow-sm">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={member.photo}
-                  alt={member.name}
-                  className={`w-full h-full object-cover ${member.zoom ? "scale-125" : ""}`}
-                />
+                {member.photo ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={member.photo}
+                    alt={member.name}
+                    className="w-full h-full object-cover object-[center_25%]"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-[#1a1a1a] text-white font-bold text-lg">
+                    {initials(member.name)}
+                  </div>
+                )}
               </div>
               <h4 className="font-bold text-[#1a1a1a] leading-snug text-sm">{member.name}</h4>
               <p className="text-[#b70000] text-xs font-semibold uppercase tracking-wide mt-1">
                 {t(member.role)}
-              </p>
-              <p className="text-[#1a1a1a]/50 text-xs mt-2">
-                {t(member.profession)} {member.code}
               </p>
             </div>
           ))}
