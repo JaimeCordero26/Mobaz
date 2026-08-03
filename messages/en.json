@@ -45,9 +45,9 @@
     "roleArchitectDesignerF": "Architect & Designer",
     "roleCivilEngineer": "Civil Engineer",
     "roleCivilEngineerF": "Civil Engineer",
-    "roleHrEngineer": "Human Resources Engineer",
-    "roleAdminChief": "Administrative Chief",
-    "roleHrLead": "Human Resources Lead",
+    "roleHrEngineer": "Occupational Safety Department",
+    "roleAdminChief": "Administrative Director",
+    "roleHrLead": "Human Resources Department Manager",
     "roleProcurementLead": "Procurement Lead",
     "roleProcurementAssistant": "Procurement Assistant"
   },

@@ -19,7 +19,7 @@ const TEAM: {
   { name: "Ing. Raquel Mora López", role: "roleCivilEngineerF", photo: "/team/raquel.png" },
   { name: "Ing. María Pilar Madrigal Elizondo", role: "roleHrEngineer", photo: "/team/maria-pilar.png" },
   { name: "Luis Alfredo Mora Gonzales", role: "roleAdminChief" },
-  { name: "Carla Porras Acuña", role: "roleHrLead", photo: "/team/carla.png" },
+  { name: "Karla Porras Acuña", role: "roleHrLead", photo: "/team/karla.png" },
   { name: "Yeril Hernández Lizano", role: "roleProcurementLead" },
   { name: "Jefry Hernández Lizano", role: "roleProcurementAssistant" },
 ];

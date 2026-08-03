@@ -45,9 +45,9 @@
     "roleArchitectDesignerF": "Arquitecta y Diseñadora",
     "roleCivilEngineer": "Ingeniero Civil",
     "roleCivilEngineerF": "Ingeniera Civil",
-    "roleHrEngineer": "Ingeniera de Recursos Humanos",
-    "roleAdminChief": "Jefe Administrativo",
-    "roleHrLead": "Encargada de Recursos Humanos",
+    "roleHrEngineer": "Departamento de Seguridad Ocupacional",
+    "roleAdminChief": "Director Administrativo",
+    "roleHrLead": "Encargada del departamento de Recursos Humanos",
     "roleProcurementLead": "Encargada de Proveeduría",
     "roleProcurementAssistant": "Asistente de Proveeduría"
   },
