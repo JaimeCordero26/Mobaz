@@ -11,12 +11,15 @@ export default function Hero() {
       id="inicio"
       className="relative min-h-screen flex flex-col overflow-hidden bg-[#1a1a1a]"
     >
-      {/* Fondo — foto de proyecto real */}
+      {/* Fondo — video de proyecto real */}
       <div className="absolute inset-0" aria-hidden="true">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/hero/pool-project.jpg"
-          alt=""
+        <video
+          src="/hero/hero-video.mp4"
+          poster="/hero/pool-project.jpg"
+          autoPlay
+          muted
+          loop
+          playsInline
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/85" />
