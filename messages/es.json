@@ -87,7 +87,9 @@
     "flexPath1Text": "Nosotros nos encargamos de todo: diseño, planos, permisos y construcción, de principio a fin.",
     "flexPath2Title": "Ya tenés el diseño o los planos",
     "flexPath2Text": "Partimos de ahí. Construimos o administramos tu proyecto sin necesidad de rehacer nada.",
-    "flexFooter": "Esa flexibilidad para adaptarnos a cada cliente es lo que nos distingue."
+    "flexFooter": "Esa flexibilidad para adaptarnos a cada cliente es lo que nos distingue.",
+    "llaveTitle": "¿Qué es un proyecto llave en mano?",
+    "llaveText": "Es un modelo en el que un solo equipo se encarga de todo el proyecto de principio a fin: diseño, planos, permisos, construcción y entrega final. Vos recibís la obra terminada y lista para usar, sin tener que coordinar por separado a arquitectos, ingenieros, contratistas y trámites. Un solo responsable, un solo contrato y total tranquilidad."
   },
   "Portfolio": {
     "label": "Nuestro trabajo",

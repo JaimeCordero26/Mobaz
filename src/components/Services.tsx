@@ -64,6 +64,12 @@ export default async function Services() {
             </div>
           </div>
           <p className="text-center text-white/50 text-sm mt-8">{t("flexFooter")}</p>
+
+          {/* Explicación: qué es un proyecto llave en mano */}
+          <div className="mt-8 border-l-2 border-[#ff5a5a] bg-white/5 p-6">
+            <h4 className="font-bold text-white text-lg mb-2">{t("llaveTitle")}</h4>
+            <p className="text-white/60 text-sm leading-relaxed">{t("llaveText")}</p>
+          </div>
         </div>
 
         {/* Pilares */}
