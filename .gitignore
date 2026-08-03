@@ -54,3 +54,7 @@ AGENTS.md
 !.dev.vars.example
 
 !.env.example
+
+# Skills locales (npx skills add) — no son parte del sitio
+.agents/
+skills-lock.json
