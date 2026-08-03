@@ -49,6 +49,18 @@ export default function Contact() {
 
   return (
     <section id="contacto" className="relative overflow-hidden py-24 bg-white">
+      {/* Fondo — video de proyecto */}
+      <div className="absolute inset-0" aria-hidden="true">
+        <video
+          src="/hero/contact-video.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-white/85" />
+      </div>
       <BuildingSkyline flip className="absolute -top-6 -left-16 w-[420px] h-[210px] text-[#b70000]/[0.06] pointer-events-none hidden md:block" />
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
