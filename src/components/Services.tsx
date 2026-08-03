@@ -1,6 +1,7 @@
-import { PenTool, HardHat, ClipboardList } from "lucide-react";
+import { PenTool, HardHat, ClipboardList, KeyRound } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import BuildingSkyline from "./BuildingSkyline";
+import Reveal from "./Reveal";
 
 export default async function Services() {
   const t = await getTranslations("Services");
@@ -31,7 +32,7 @@ export default async function Services() {
       <BuildingSkyline flip className="absolute -top-4 -left-16 w-[420px] h-[210px] text-[#1a1a1a]/[0.06] pointer-events-none hidden md:block" />
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-16">
+        <Reveal className="text-center mb-16">
           <span className="text-[#b70000] font-semibold text-sm uppercase tracking-widest">
             {t("label")}
           </span>
@@ -41,10 +42,10 @@ export default async function Services() {
           <p className="text-[#1a1a1a]/60 text-lg max-w-2xl mx-auto">
             {t("subtitle")}
           </p>
-        </div>
+        </Reveal>
 
         {/* Flexibilidad — el cliente puede traer solo la idea o ya venir con diseño/planos */}
-        <div className="mb-14 bg-[#1a1a1a] p-8 md:p-10">
+        <Reveal className="mb-14 bg-[#1a1a1a] p-8 md:p-10">
           <div className="text-center mb-8">
             <span className="text-[#ff5a5a] font-semibold text-xs uppercase tracking-widest">
               {t("flexLabel")}
@@ -66,19 +67,23 @@ export default async function Services() {
           <p className="text-center text-white/50 text-sm mt-8">{t("flexFooter")}</p>
 
           {/* Explicación: qué es un proyecto llave en mano */}
-          <div className="mt-8 border-l-2 border-[#ff5a5a] bg-white/5 p-6">
-            <h4 className="font-bold text-white text-lg mb-2">{t("llaveTitle")}</h4>
-            <p className="text-white/60 text-sm leading-relaxed">{t("llaveText")}</p>
+          <div className="mt-8 flex flex-col sm:flex-row gap-5 border-l-2 border-[#ff5a5a] bg-white/5 p-6">
+            <KeyRound size={26} className="text-[#ff5a5a] shrink-0" />
+            <div>
+              <h4 className="font-bold text-white text-lg mb-2">{t("llaveTitle")}</h4>
+              <p className="text-white/60 text-sm leading-relaxed">{t("llaveText")}</p>
+            </div>
           </div>
-        </div>
+        </Reveal>
 
         {/* Pilares */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {pillars.map((pillar) => {
+          {pillars.map((pillar, i) => {
             const Icon = pillar.icon;
             return (
-              <div
+              <Reveal
                 key={pillar.title}
+                delay={i * 90}
                 className="bg-white p-8 border border-[#e6e6e6] hover:border-[#b70000] transition-colors duration-300 group flex flex-col"
               >
                 <div className="w-14 h-14 bg-[#1a1a1a] group-hover:bg-[#b70000] flex items-center justify-center mb-5 transition-colors duration-300">
@@ -96,20 +101,20 @@ export default async function Services() {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </Reveal>
             );
           })}
         </div>
 
         {/* CTA */}
-        <div className="text-center mt-14">
+        <Reveal className="text-center mt-14">
           <a
             href="#contacto"
             className="inline-flex items-center gap-2 bg-[#333d73] hover:bg-[#1a1a1a] text-white font-bold px-8 py-4 text-lg transition-colors duration-200"
           >
             {t("cta")}
           </a>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

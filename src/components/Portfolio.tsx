@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { MapPin, X, ChevronLeft, ChevronRight, Images } from "lucide-react";
 import { getClient, type Project } from "@/lib/supabase";
 import BuildingSkyline from "./BuildingSkyline";
+import Reveal from "./Reveal";
 
 // Las categorías se guardan en español en la base de datos (son las que
 // usa el panel admin). Este mapa solo traduce la ETIQUETA visible.
@@ -279,7 +280,7 @@ export default function Portfolio() {
       <BuildingSkyline className="absolute -bottom-6 -right-16 w-[420px] h-[210px] text-[#333d73]/[0.07] pointer-events-none hidden md:block" />
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-12">
+        <Reveal className="text-center mb-12">
           <span className="text-[#b70000] font-semibold text-sm uppercase tracking-widest">
             {t("label")}
           </span>
@@ -289,7 +290,7 @@ export default function Portfolio() {
           <p className="text-gray-500 text-lg max-w-2xl mx-auto">
             {t("subtitle")}
           </p>
-        </div>
+        </Reveal>
 
         {/* Category filter */}
         <div className="flex flex-wrap gap-3 justify-center mb-10">
@@ -319,8 +320,10 @@ export default function Portfolio() {
           <p className="text-center text-gray-400 mt-10">{t("noProjects")}</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filtered.map((project) => (
-              <ProjectCard key={project.id} project={project} onOpen={openModal} />
+            {filtered.map((project, i) => (
+              <Reveal key={project.id} delay={(i % 3) * 90}>
+                <ProjectCard project={project} onOpen={openModal} />
+              </Reveal>
             ))}
           </div>
         )}

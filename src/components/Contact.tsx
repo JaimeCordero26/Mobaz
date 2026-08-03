@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { MessageCircle, MapPin, Clock, Send } from "lucide-react";
 import BuildingSkyline from "./BuildingSkyline";
+import Reveal from "./Reveal";
 
 const CONTACTS = [
   { name: "Jason Mora", phone: "83276566" },
@@ -64,7 +65,7 @@ export default function Contact() {
       <BuildingSkyline flip className="absolute -top-6 -left-16 w-[420px] h-[210px] text-[#b70000]/[0.06] pointer-events-none hidden md:block" />
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-16">
+        <Reveal className="text-center mb-16">
           <span className="text-[#b70000] font-semibold text-sm uppercase tracking-widest">
             {t("label")}
           </span>
@@ -74,7 +75,7 @@ export default function Contact() {
           <p className="text-gray-500 text-lg max-w-2xl mx-auto">
             {t("subtitle")}
           </p>
-        </div>
+        </Reveal>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
           {/* Info */}
