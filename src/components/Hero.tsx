@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { ArrowDown, HardHat } from "lucide-react";
+import AdaptiveVideo from "./AdaptiveVideo";
 
 export default function Hero() {
   const t = useTranslations("Hero");
@@ -11,16 +12,13 @@ export default function Hero() {
       id="inicio"
       className="relative min-h-screen flex flex-col overflow-hidden bg-[#1a1a1a]"
     >
-      {/* Fondo — video de proyecto real */}
-      <div className="absolute inset-0" aria-hidden="true">
-        <video
-          src="/hero/hero-video.mp4"
-          poster="/hero/pool-project.jpg"
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
+      {/* Fondo — video de proyecto real, calidad según la red */}
+      <div className="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+        <AdaptiveVideo
+          hqKey="hero/hero-video.mp4"
+          sdKey="hero/hero-video-720.mp4"
+          poster="hero/pool-project.jpg"
+          className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/85" />
       </div>
