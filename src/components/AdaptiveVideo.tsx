@@ -72,7 +72,7 @@ export default function AdaptiveVideo({ hqKey, sdKey, poster, className = "" }: 
           src={posterUrl}
           alt=""
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ objectPosition: '42% center' }}
+          style={{ objectPosition: '65% center' }}
         />
 
       {/* Video — arranca invisible, hace fade (shade) al terminar de cargar */}
@@ -88,7 +88,7 @@ export default function AdaptiveVideo({ hqKey, sdKey, poster, className = "" }: 
           preload="auto"
           onLoadedData={() => setLoaded(true)}
           onCanPlay={() => setLoaded(true)}
-          style={{ objectPosition: '42% center' }}
+          style={{ objectPosition: '65% center' }}
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-out ${
             loaded ? "opacity-100" : "opacity-0"
           }`}

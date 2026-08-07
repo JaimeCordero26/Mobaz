@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { MessageCircle, MapPin, Clock, Send } from "lucide-react";
 import BuildingSkyline from "./BuildingSkyline";
 import Reveal from "./Reveal";
+import AdaptiveVideo from "./AdaptiveVideo";
 
 const CONTACTS = [
   { name: "Jason Mora", phone: "83276566" },
@@ -50,15 +51,12 @@ export default function Contact() {
 
   return (
     <section id="contacto" className="relative overflow-hidden py-24 bg-white">
-      {/* Fondo — video de proyecto */}
+      {/* Fondo — video de proyecto, calidad según la red */}
       <div className="absolute inset-0" aria-hidden="true">
-        <video
-          src="/hero/contact-video.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
+        <AdaptiveVideo
+          hqKey="hero/contact-video.mp4"
+          sdKey="hero/contact-video-720.mp4"
+          poster="hero/contact-poster.jpg"
         />
         <div className="absolute inset-0 bg-white/85" />
       </div>
