@@ -19,6 +19,7 @@ export default function Hero() {
           sdKey="hero/hero-video-720.mp4"
           poster="hero/pool-project.jpg"
           className="w-full h-full object-cover"
+          objectPositionClassName="object-[55%_center] sm:object-[65%_center]"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/85" />
       </div>

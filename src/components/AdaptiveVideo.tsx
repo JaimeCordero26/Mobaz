@@ -37,9 +37,17 @@ type Props = {
   /** Imagen de fondo que carga de inmediato mientras baja el video */
   poster: string;
   className?: string;
+  /** Clases de object-position (Tailwind), permite override solo en mobile via sm: */
+  objectPositionClassName?: string;
 };
 
-export default function AdaptiveVideo({ hqKey, sdKey, poster, className = "" }: Props) {
+export default function AdaptiveVideo({
+  hqKey,
+  sdKey,
+  poster,
+  className = "",
+  objectPositionClassName = "object-[65%_center]",
+}: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [src, setSrc] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
@@ -71,8 +79,7 @@ export default function AdaptiveVideo({ hqKey, sdKey, poster, className = "" }: 
         <img
           src={posterUrl}
           alt=""
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ objectPosition: '65% center' }}
+          className={`absolute inset-0 w-full h-full object-cover ${objectPositionClassName}`}
         />
 
       {/* Video — arranca invisible, hace fade (shade) al terminar de cargar */}
@@ -88,8 +95,7 @@ export default function AdaptiveVideo({ hqKey, sdKey, poster, className = "" }: 
           preload="auto"
           onLoadedData={() => setLoaded(true)}
           onCanPlay={() => setLoaded(true)}
-          style={{ objectPosition: '65% center' }}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-out ${
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-out ${objectPositionClassName} ${
             loaded ? "opacity-100" : "opacity-0"
           }`}
         />
