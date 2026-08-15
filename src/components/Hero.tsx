@@ -30,7 +30,7 @@ export default function Hero() {
           {/* Logo — centro, tamaño moderado */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/logo/logo.png"
+            src="/brand/logo-white.png"
             alt="Mobaz"
             className="h-20 sm:h-24 md:h-28 w-auto object-contain mx-auto mb-8"
           />
