@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useTranslations } from "next-intl";
-import { MapPin, X, ChevronLeft, ChevronRight, Images } from "lucide-react";
+import { MapPin, X, ChevronLeft, ChevronRight, Images, ZoomIn, ZoomOut } from "lucide-react";
 import { getClient, type Project } from "@/lib/supabase";
 import BuildingSkyline from "./BuildingSkyline";
 import Reveal from "./Reveal";
@@ -75,6 +75,214 @@ function useSwipe(onLeft: () => void, onRight: () => void) {
   }
 
   return { onTouchStart, onTouchEnd };
+}
+
+const MAX_ZOOM = 4;
+const CLICK_ZOOM = 2.2;
+
+type Pan = { x: number; y: number };
+
+// ── Imagen del lightbox: doble-click / rueda / pinch para zoom, arrastre para pan ──
+function ZoomableImage({
+  src,
+  alt,
+  zoom,
+  pan,
+  onZoomChange,
+  onPanChange,
+  onSwipeLeft,
+  onSwipeRight,
+}: {
+  src: string;
+  alt: string;
+  zoom: number;
+  pan: Pan;
+  onZoomChange: (z: number) => void;
+  onPanChange: (p: Pan) => void;
+  onSwipeLeft?: () => void;
+  onSwipeRight?: () => void;
+}) {
+  const imgRef = useRef<HTMLImageElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const dragRef = useRef<{ x: number; y: number; panX: number; panY: number } | null>(null);
+  const draggedRef = useRef(false);
+  const zoomRef = useRef(zoom);
+  const panRef = useRef(pan);
+  zoomRef.current = zoom;
+  panRef.current = pan;
+  const touchRef = useRef<{
+    mode: "pan" | "pinch" | "swipe";
+    startX: number;
+    startY: number;
+    startPanX: number;
+    startPanY: number;
+    startDist: number;
+    startZoom: number;
+  } | null>(null);
+
+  function clampPan(z: number, x: number, y: number): Pan {
+    const el = imgRef.current;
+    const maxX = el ? (el.clientWidth * (z - 1)) / 2 : 0;
+    const maxY = el ? (el.clientHeight * (z - 1)) / 2 : 0;
+    return { x: Math.min(maxX, Math.max(-maxX, x)), y: Math.min(maxY, Math.max(-maxY, y)) };
+  }
+
+  function toggleZoomAt(clientX: number, clientY: number) {
+    if (zoom > 1) {
+      onZoomChange(1);
+      onPanChange({ x: 0, y: 0 });
+      return;
+    }
+    const el = imgRef.current;
+    if (!el) { onZoomChange(CLICK_ZOOM); return; }
+    const rect = el.getBoundingClientRect();
+    const offsetX = clientX - (rect.left + rect.width / 2);
+    const offsetY = clientY - (rect.top + rect.height / 2);
+    onZoomChange(CLICK_ZOOM);
+    onPanChange(clampPan(CLICK_ZOOM, -offsetX * (CLICK_ZOOM - 1), -offsetY * (CLICK_ZOOM - 1)));
+  }
+
+  // Listener nativo (no pasivo): React adjunta onWheel como pasivo y no permite
+  // preventDefault, necesario acá para que la página no haga scroll al hacer zoom.
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    function onWheel(e: WheelEvent) {
+      e.preventDefault();
+      const z = zoomRef.current;
+      const p = panRef.current;
+      const nextZoom = Math.min(MAX_ZOOM, Math.max(1, z - e.deltaY * 0.0018 * z));
+      if (nextZoom === z) return;
+      if (nextZoom <= 1.02) {
+        onZoomChange(1);
+        onPanChange({ x: 0, y: 0 });
+        return;
+      }
+      const imgEl = imgRef.current;
+      if (imgEl) {
+        const rect = imgEl.getBoundingClientRect();
+        const offsetX = e.clientX - (rect.left + rect.width / 2);
+        const offsetY = e.clientY - (rect.top + rect.height / 2);
+        const ratio = nextZoom / z;
+        onPanChange(clampPan(nextZoom, p.x * ratio - offsetX * (ratio - 1), p.y * ratio - offsetY * (ratio - 1)));
+      }
+      onZoomChange(nextZoom);
+    }
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onZoomChange, onPanChange]);
+
+  function handleMouseDown(e: React.MouseEvent) {
+    if (zoom <= 1) return;
+    dragRef.current = { x: e.clientX, y: e.clientY, panX: pan.x, panY: pan.y };
+    draggedRef.current = false;
+  }
+
+  function handleMouseMove(e: React.MouseEvent) {
+    if (!dragRef.current) return;
+    const dx = e.clientX - dragRef.current.x;
+    const dy = e.clientY - dragRef.current.y;
+    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) draggedRef.current = true;
+    onPanChange(clampPan(zoom, dragRef.current.panX + dx, dragRef.current.panY + dy));
+  }
+
+  function handleMouseUp() {
+    dragRef.current = null;
+  }
+
+  function handleClick() {
+    if (draggedRef.current) { draggedRef.current = false; }
+  }
+
+  function touchDist(t0: React.Touch, t1: React.Touch) {
+    return Math.hypot(t0.clientX - t1.clientX, t0.clientY - t1.clientY);
+  }
+
+  function handleTouchStart(e: React.TouchEvent) {
+    if (e.touches.length === 2) {
+      touchRef.current = {
+        mode: "pinch",
+        startX: 0,
+        startY: 0,
+        startPanX: pan.x,
+        startPanY: pan.y,
+        startDist: touchDist(e.touches[0], e.touches[1]),
+        startZoom: zoom,
+      };
+    } else if (e.touches.length === 1) {
+      touchRef.current = {
+        mode: zoom > 1 ? "pan" : "swipe",
+        startX: e.touches[0].clientX,
+        startY: e.touches[0].clientY,
+        startPanX: pan.x,
+        startPanY: pan.y,
+        startDist: 0,
+        startZoom: zoom,
+      };
+    }
+  }
+
+  function handleTouchMove(e: React.TouchEvent) {
+    const t = touchRef.current;
+    if (!t) return;
+    if (t.mode === "pinch" && e.touches.length === 2) {
+      const newDist = touchDist(e.touches[0], e.touches[1]);
+      const nextZoom = Math.min(MAX_ZOOM, Math.max(1, t.startZoom * (newDist / t.startDist)));
+      onZoomChange(nextZoom);
+      onPanChange(clampPan(nextZoom, t.startPanX, t.startPanY));
+    } else if (t.mode === "pan" && e.touches.length === 1) {
+      const dx = e.touches[0].clientX - t.startX;
+      const dy = e.touches[0].clientY - t.startY;
+      onPanChange(clampPan(zoom, t.startPanX + dx, t.startPanY + dy));
+    }
+  }
+
+  function handleTouchEnd(e: React.TouchEvent) {
+    const t = touchRef.current;
+    touchRef.current = null;
+    if (!t) return;
+    if (t.mode === "pinch") {
+      if (zoom <= 1.05) { onZoomChange(1); onPanChange({ x: 0, y: 0 }); }
+      return;
+    }
+    if (t.mode === "swipe") {
+      const diff = t.startX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) {
+        if (diff > 0) onSwipeLeft?.();
+        else onSwipeRight?.();
+      }
+    }
+  }
+
+  return (
+    <div
+      ref={wrapperRef}
+      className="w-full h-full overflow-hidden touch-none"
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        ref={imgRef}
+        src={src}
+        alt={alt}
+        draggable={false}
+        onClick={handleClick}
+        onDoubleClick={(e) => toggleZoomAt(e.clientX, e.clientY)}
+        className={`w-full h-full object-contain ${zoom > 1 ? "cursor-grab active:cursor-grabbing" : "cursor-zoom-in"}`}
+        style={{
+          transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
+          transition: dragRef.current ? "none" : "transform 0.15s ease-out",
+        }}
+      />
+    </div>
+  );
 }
 
 // ── Card con carrusel y swipe ─────────────────────────────────────────────────
@@ -214,7 +422,21 @@ export default function Portfolio() {
   const [activeCategory, setActiveCategory] = useState("Todos");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [imageIndex, setImageIndex] = useState(0);
+  const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState<Pan>({ x: 0, y: 0 });
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setZoom(1);
+    setPan({ x: 0, y: 0 });
+  }, [imageIndex, selectedProject]);
+
+  const toggleZoom = useCallback(() => {
+    setZoom((z) => {
+      if (z > 1) { setPan({ x: 0, y: 0 }); return 1; }
+      return CLICK_ZOOM;
+    });
+  }, []);
 
   useEffect(() => {
     async function fetchProjects() {
@@ -260,20 +482,21 @@ export default function Portfolio() {
     setImageIndex((i) => (i + 1) % selectedProject.images.length);
   }, [selectedProject]);
 
-  // Swipe en el modal
-  const modalSwipe = useSwipe(nextImage, prevImage);
-
   // Teclado en el modal
   useEffect(() => {
     if (!selectedProject) return;
     function onKey(e: KeyboardEvent) {
+      if (zoom > 1) {
+        if (e.key === "Escape") { setZoom(1); setPan({ x: 0, y: 0 }); }
+        return;
+      }
       if (e.key === "ArrowLeft") prevImage();
       if (e.key === "ArrowRight") nextImage();
       if (e.key === "Escape") closeModal();
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [selectedProject, prevImage, nextImage, closeModal]);
+  }, [selectedProject, prevImage, nextImage, closeModal, zoom]);
 
   return (
     <section id="portafolio" className="relative overflow-hidden py-24" style={{ background: "#ffffff" }}>
@@ -339,24 +562,25 @@ export default function Portfolio() {
             className="bg-white w-full h-full sm:h-[85vh] sm:max-h-[90vh] sm:max-w-6xl sm:rounded-2xl overflow-hidden shadow-2xl flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Carousel con swipe */}
-            <div
-              className="relative bg-gray-950 flex-1 min-h-0 select-none"
-              {...(selectedProject.images?.length > 1 ? modalSwipe : {})}
-            >
+            {/* Carousel con zoom y swipe */}
+            <div className="relative bg-gray-950 flex-1 min-h-0 select-none">
               {selectedProject.images?.length > 0 ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
+                <ZoomableImage
                   key={imageIndex}
                   src={selectedProject.images[imageIndex]}
                   alt={selectedProject.name}
-                  className="w-full h-full object-contain"
+                  zoom={zoom}
+                  pan={pan}
+                  onZoomChange={setZoom}
+                  onPanChange={setPan}
+                  onSwipeLeft={selectedProject.images.length > 1 ? nextImage : undefined}
+                  onSwipeRight={selectedProject.images.length > 1 ? prevImage : undefined}
                 />
               ) : (
                 <div className="flex items-center justify-center h-full text-white/30">{t("noImage")}</div>
               )}
 
-              {selectedProject.images?.length > 1 && (
+              {selectedProject.images?.length > 1 && zoom === 1 && (
                 <>
                   <button
                     onClick={prevImage}
@@ -381,15 +605,27 @@ export default function Portfolio() {
                     ))}
                   </div>
 
-                  <div className="absolute top-3 right-12 bg-black/50 text-white text-xs rounded-full px-2.5 py-1">
-                    {imageIndex + 1} / {selectedProject.images.length}
-                  </div>
-
                   {/* Hint de swipe — solo en móvil, desaparece tras 2s */}
                   <div className="absolute bottom-10 left-1/2 -translate-x-1/2 sm:hidden">
                     <span className="text-white/40 text-xs">{t("swipeHint")}</span>
                   </div>
                 </>
+              )}
+
+              {selectedProject.images?.length > 1 && (
+                <div className="absolute top-3 right-24 bg-black/50 text-white text-xs rounded-full px-2.5 py-1">
+                  {imageIndex + 1} / {selectedProject.images.length}
+                </div>
+              )}
+
+              {selectedProject.images?.length > 0 && (
+                <button
+                  onClick={toggleZoom}
+                  aria-label={zoom > 1 ? t("zoomOut") : t("zoomIn")}
+                  className="absolute top-3 right-14 bg-black/50 hover:bg-black/80 text-white rounded-full p-2 transition-colors"
+                >
+                  {zoom > 1 ? <ZoomOut size={20} /> : <ZoomIn size={20} />}
+                </button>
               )}
 
               <button

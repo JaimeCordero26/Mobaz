@@ -104,7 +104,9 @@
     "noProjects": "No hay proyectos en esta categoría aún.",
     "viewDetails": "Ver detalles →",
     "quoteSimilar": "Cotizar proyecto similar",
-    "swipeHint": "← deslizá para cambiar →"
+    "swipeHint": "← deslizá para cambiar →",
+    "zoomIn": "Acercar imagen",
+    "zoomOut": "Alejar imagen"
   },
   "Contact": {
     "label": "Hablemos",

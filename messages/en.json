@@ -104,7 +104,9 @@
     "noProjects": "No projects in this category yet.",
     "viewDetails": "View details →",
     "quoteSimilar": "Quote a similar project",
-    "swipeHint": "← swipe to change →"
+    "swipeHint": "← swipe to change →",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out"
   },
   "Contact": {
     "label": "Let's talk",
