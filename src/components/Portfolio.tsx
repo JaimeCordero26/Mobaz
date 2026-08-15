@@ -336,7 +336,7 @@ export default function Portfolio() {
           onClick={closeModal}
         >
           <div
-            className="bg-white w-full h-full sm:h-auto sm:max-h-[90vh] sm:max-w-6xl sm:rounded-2xl overflow-hidden shadow-2xl flex flex-col"
+            className="bg-white w-full h-full sm:h-[85vh] sm:max-h-[90vh] sm:max-w-6xl sm:rounded-2xl overflow-hidden shadow-2xl flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Carousel con swipe */}
@@ -419,7 +419,7 @@ export default function Portfolio() {
             )}
 
             {/* Details */}
-            <div className="flex-shrink-0 max-h-[30vh] sm:max-h-none overflow-y-auto p-5 sm:p-6">
+            <div className="flex-shrink-0 max-h-[30vh] sm:max-h-[35vh] overflow-y-auto p-5 sm:p-6">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h3 className="text-xl sm:text-2xl font-bold text-gray-900">{selectedProject.name}</h3>
