@@ -341,7 +341,7 @@ export default function Portfolio() {
           >
             {/* Carousel con swipe */}
             <div
-              className="relative bg-gray-950 flex-1 min-h-0 sm:flex-none sm:h-[75vh] select-none"
+              className="relative bg-gray-950 flex-1 min-h-0 select-none"
               {...(selectedProject.images?.length > 1 ? modalSwipe : {})}
             >
               {selectedProject.images?.length > 0 ? (
